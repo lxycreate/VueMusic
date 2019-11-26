@@ -1,12 +1,10 @@
 <!--
- * @Description: 布局
+ * @Description: 导航
  * @Author: lixianying
  * @Date: 2019-11-26
  -->
 <template>
-  <div class="layout">
-    layout
-  </div>
+  
 </template>
 
 <script>
