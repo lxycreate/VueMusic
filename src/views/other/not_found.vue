@@ -1,10 +1,10 @@
 <!--
- * @Description: 导航
+ * @Description: 404
  * @Author: lixianying
- * @Date: 2019-11-26
+ * @Date: 2019-11-27
  -->
 <template>
-  <div class="sidebar"></div>
+  <div class="not-found">404</div>
 </template>
 
 <script>

@@ -19,13 +19,34 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    proxy: {
+      '/api': {
+        target: "http://192.168.200.33:8888/",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      }
     }
   },
+  // 配置别名
   configureWebpack: {
     resolve: {
       alias: {
         '@': resolve('src')
       }
+    }
+  },
+  // 配置标题栏图标
+  pwa: {
+    iconPaths: {
+      favicon32: 'favicon.ico',
+      favicon16: 'favicon.ico',
+      appleTouchIcon: 'favicon.ico',
+      maskIcon: 'favicon.ico',
+      msTileImage: 'favicon.ico'
     }
   }
 }
