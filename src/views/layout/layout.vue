@@ -5,45 +5,46 @@
  -->
 <template>
 <div class="layout">
-    <section class="sidebar-page">
-        <section class="sidebar">sidebar</section>
-        <section class="page-container">page-container</section>
-    </section>
-    <footer class="player-box">footer</footer>
+  <music-header></music-header>
+  <section class="sidebar-page">
+    <side-bar></side-bar>
+    <section class="page-container">page-container</section>
+  </section>
+  <footer class="player-box">footer</footer>
 </div>
 </template>
 
 <script>
+import MusicHeader from "./components/header";
+import SideBar from "./components/sidebar";
 export default {
-
+  components: {
+    MusicHeader,
+    SideBar
+  }
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .layout {
-    margin: auto;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  max-width: 960px;
+  max-height: 640px;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  overflow: hidden; 
+
+  .sidebar-page {
+    display: flex;
+    height: calc(100% - 110px);
+  }
+
+  .player-box {
     width: 100%;
-    height: 100%;
-    max-width: 960px;
-    max-height: 640px;
-    background-color: #f8f8f8;
-
-    .sidebar-page {
-        display: flex;
-        height: calc(100% - 50px);
-    }
-
-    .sidebar {
-        width: 200px;
-    }
-
-    .page-container {
-        width: calc(100% - 200px);
-    }
-
-    .player-box {
-        width: 100%;
-        height: 50px;
-    }
+    height: 60px;
+    background-color: $mainColor;
+  }
 }
 </style>

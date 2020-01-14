@@ -48,5 +48,18 @@ module.exports = {
       maskIcon: 'favicon.ico',
       msTileImage: 'favicon.ico'
     }
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // 全局变量
+        prependData: `
+          @import "@/styles/variables.scss";
+        `
+      },
+      less: {
+        javascriptEnabled: true,
+      }
+    }
   }
 }
