@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Layout from "@/views/layout/layout";
+import PageContent from "@/views/layout/components/page_content"
 Vue.use(Router);
 
 export const routes = [{
@@ -11,8 +12,25 @@ export const routes = [{
 {
   path: "/",
   component: Layout,
-  meta: { title: "Layout" }
-}, 
+  redirect: "/findMusic",
+  children: [{
+    path: "/findMusic",
+    name: "findMusic",
+    component: PageContent,
+    redirect: "/findMusic/personalRecommend",
+    meta: { title: "发现音乐" },
+    children: [{
+      path: "/findMusic/personalRecommend",
+      name: "personalRecommend",
+      component: () => import("@/views/find_music/personal_recommend"),
+      meta: { title: "个性推荐" }
+    }]
+  }, {
+    path: "/test",
+    component: () => import("@/views/other/test"),
+    meta: { title: "测试组件" }
+  }]
+},
 
 // 必须放在最后
 {

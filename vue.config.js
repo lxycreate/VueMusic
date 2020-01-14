@@ -13,6 +13,8 @@ function resolve(dir) {
 }
 
 module.exports = {
+  // 关闭保存时eslint检测
+  lintOnSave: false,
   devServer: {
     port: 8888,
     open: true,
@@ -22,7 +24,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: "http://192.168.200.33:8888/",
+        target: "http://127.0.0.1:3000/",
         changeOrigin: true,
         ws: true,
         pathRewrite: {

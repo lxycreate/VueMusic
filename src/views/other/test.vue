@@ -1,5 +1,5 @@
 <template>
-  <div class="home">home</div>
+<div>测试组件</div>
 </template>
 
 <script>
