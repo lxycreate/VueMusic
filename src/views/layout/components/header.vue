@@ -7,30 +7,42 @@
 <section class="music-header">
   <div class="left"></div>
   <div class="right">
-    <ul class="page-btns"></ul>
+    <ul class="page-btns">
+      <li class="btn-item" v-for="item in pageBtns" :key="item.path">
+        <router-link class="btn-link" :to="item.path">
+          {{item.meta.title}}
+        </router-link>
+      </li>
+    </ul>
     <div class="right-right">
       <a-input-search placeholder="搜索" />
-      <ul class="system-btns"></ul>
+      <ul class="system-btns">
+      </ul>
     </div>
   </div>
 </section>
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex'
 export default {
   data() {
     return {
       systemBtns: []
-    }
+    };
+  },
+  computed: {
+    ...mapGetters(["pageBtns"])
   }
-}
+};
 </script>
 
 <style lang="scss">
 .music-header {
   display: flex;
   height: 50px;
-  padding: 0 10px;
   background-color: $mainColor;
 
   .left {
@@ -39,19 +51,32 @@ export default {
 
   .right {
     display: flex;
+    padding-right: 10px;
     width: $contentWidth;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
-    .system-btns{
+    .btn-link{
+      color: #e5e5e5;
+
+      &:hover{
+        color: #ffffff;
+      }
+
+      &.router-link-active {
+        color: #ffffff;
+      }
+    }
+
+    .system-btns {
       display: inline-block;
     }
 
-    .ant-input-search{
+    .ant-input-search {
       width: auto;
     }
 
-    .ant-input{
+    .ant-input {
       border: none;
     }
   }

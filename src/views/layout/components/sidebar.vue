@@ -6,7 +6,7 @@
 <template>
 <div class="sidebar">
   <a-menu>
-    <a-menu-item v-for="item in routes" :key="item.path">
+    <a-menu-item v-for="item in routes" :key="item.path" @click="updatePageBtns(item)">
       <router-link :to="item.path">
         {{item.meta.title}}
       </router-link>
@@ -16,6 +16,9 @@
 </template>
 
 <script>
+import {
+  mapActions
+} from "vuex"
 export default {
   data() {
     return {
@@ -28,7 +31,29 @@ export default {
         item.path === "/")[0].children;
     }
   },
-  mounted() {}
+  mounted() {
+    this.loadPageBtns();
+  },
+  methods: {
+    ...mapActions(["setPageBtnsAction"]),
+    loadPageBtns() {
+      let routeInfo = undefined;
+      if (this.$route.meta.hasBtn) {
+        routeInfo = this.routes.filter(item => item.path === this.$route.path)[0];
+      } else {
+        let parentPath = this.$route.matched[this.$route.matched.length - 1].parent.path;
+        routeInfo = this.routes.filter(item => item.path === parentPath)[0];
+      }
+      this.updatePageBtns(routeInfo);
+    },
+    updatePageBtns(item) {
+      if (item && item.children) {
+        this.setPageBtnsAction([...item.children]);
+      } else {
+        this.setPageBtnsAction([]);
+      }
+    }
+  },
 }
 </script>
 

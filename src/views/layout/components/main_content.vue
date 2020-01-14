@@ -26,5 +26,11 @@ export default {
 .main-content {
   display: flex;
   height: calc(100% - 110px);
+
+  .page-container {
+    width: $contentWidth;
+    height: 100%;
+    overflow: auto;
+  }
 }
 </style>

@@ -18,7 +18,7 @@ export const routes = [{
     name: "findMusic",
     component: PageContent,
     redirect: "/findMusic/personalRecommend",
-    meta: { title: "发现音乐" },
+    meta: { title: "发现音乐", hasBtn: true },
     children: [{
       path: "/findMusic/personalRecommend",
       name: "personalRecommend",
