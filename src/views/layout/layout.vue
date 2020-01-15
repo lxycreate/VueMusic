@@ -26,10 +26,8 @@ export default {
 <style lang="scss">
 .layout {
   margin: auto;
-  width: 100%;
-  height: 100%;
-  max-width: 960px;
-  max-height: 640px;
+  width: 960px;
+  height: 640px;
   background-color: #ffffff;
   border-radius: 3px;
   overflow: hidden;

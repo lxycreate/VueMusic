@@ -6,8 +6,8 @@
 <template>
 <div class="sidebar">
   <a-menu>
-    <a-menu-item v-for="item in routes" :key="item.path" @click="updatePageBtns(item)">
-      <router-link :to="item.path">
+    <a-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item)">
+      <router-link :to="item.path" v-if="!item.meta.hidden">
         {{item.meta.title}}
       </router-link>
     </a-menu-item>
@@ -70,7 +70,12 @@ export default {
     .ant-menu-item {
       margin: 0;
       padding: 0;
+      font-weight: 500;
       background-color: transparent;
+
+      &.hidden {
+        display: none;
+      }
     }
   }
 

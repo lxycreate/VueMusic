@@ -58,6 +58,7 @@ export default {
 
     .btn-link{
       color: #e5e5e5;
+      font-weight: 500;
 
       &:hover{
         color: #ffffff;

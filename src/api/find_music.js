@@ -9,7 +9,12 @@ import service from "@/utils/request.js"
 /**
  * 获取推荐新音乐
  */
-export const ajaxGetRecommendNewSongs = () => service.get("/personalized/newsong");
+export const ajaxGetRecNewSongs = () => service.get("/personalized/newsong");
+
+/**
+ * 获取推荐歌单
+ */
+export const ajaxGetRecPlayList = (data) => service.get("/personalized", data);
 
 export const testApi = (data) => service.get("/top/list", data);
 

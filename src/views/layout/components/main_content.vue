@@ -30,6 +30,7 @@ export default {
   .page-container {
     width: $contentWidth;
     height: 100%;
+    padding:  0 20px;
     overflow: auto;
   }
 }

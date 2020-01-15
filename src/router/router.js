@@ -4,39 +4,39 @@ import Layout from "@/views/layout/layout";
 import PageContent from "@/views/layout/components/page_content"
 Vue.use(Router);
 
-export const routes = [{
-  path: "/404",
-  component: () => import("@/views/other/not_found"),
-  meta: { title: "错误" }
-},
-{
-  path: "/",
-  component: Layout,
-  redirect: "/findMusic",
-  children: [{
-    path: "/findMusic",
-    name: "findMusic",
-    component: PageContent,
-    redirect: "/findMusic/personalRecommend",
-    meta: { title: "发现音乐", hasBtn: true },
+export const routes = [
+  {
+    path: "/",
+    component: Layout,
+    redirect: "/findMusic",
     children: [{
-      path: "/findMusic/personalRecommend",
-      name: "personalRecommend",
-      component: () => import("@/views/find_music/personal_recommend"),
-      meta: { title: "个性推荐" }
+      path: "/findMusic",
+      name: "findMusic",
+      component: PageContent,
+      redirect: "/findMusic/personalRecommend",
+      meta: { title: "发现音乐", hasBtn: true },
+      children: [{
+        path: "/findMusic/personalRecommend",
+        name: "personalRecommend",
+        component: () => import("@/views/find_music/personal_recommend"),
+        meta: { title: "个性推荐" }
+      }]
+    }, {
+      path: "/test",
+      component: () => import("@/views/other/test"),
+      meta: { title: "测试组件" }
+    }, {
+      path: "/404",
+      component: () => import("@/views/other/not_found"),
+      meta: { title: "错误", hidden: true }
     }]
-  }, {
-    path: "/test",
-    component: () => import("@/views/other/test"),
-    meta: { title: "测试组件" }
-  }]
-},
+  },
 
-// 必须放在最后
-{
-  path: "*",
-  redirect: "/404"
-}]
+  // 必须放在最后
+  {
+    path: "*",
+    redirect: "/404"
+  }]
 
 const createRouter = () =>
   new Router({
