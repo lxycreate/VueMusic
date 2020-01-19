@@ -41,12 +41,6 @@ module.exports = {
       }
     }
   },
-  // 配置使用icon图标
-  chainWebpack: config => {
-    const svgRule = config.module.rule('svg');
-    svgRule.uses.clear();
-    svgRule.use('vue-svg-loader').loader('vue-svg-loader');
-  },
   // 配置标题栏图标
   pwa: {
     iconPaths: {

@@ -70,7 +70,8 @@ export default {
     .ant-menu-item {
       margin: 0;
       padding: 0;
-      font-weight: 500;
+      color: $baseTxtColor;
+      font-weight: $baseFontWeight;
       background-color: transparent;
 
       &.hidden {

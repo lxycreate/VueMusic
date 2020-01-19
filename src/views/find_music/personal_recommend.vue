@@ -12,7 +12,8 @@
       <li class="list-item" v-for="item in recPlayList" :key="item.id">
         <span class="img-box">
           <span class="play-count">
-            
+            <a-icon type="play-circle" />
+            <span class="count-num">{{(item.playCount/10000).toFixed(0)+"万"}}</span>
           </span>
           <img class="img" :src="item.picUrl" />
         </span>
@@ -59,9 +60,9 @@ export default {
 
   .title {
     display: block;
-    color: $baseTxtColor;
+    color: $baseTxtActiveColor;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: $baseFontWeight;
     text-align: left;
     line-height: 1;
   }
@@ -69,10 +70,10 @@ export default {
   .play-list {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 10px;
     justify-content: space-between;
 
     .list-item {
+      margin-top: 10px;
       width: 19%;
     }
 
@@ -83,14 +84,31 @@ export default {
       overflow: hidden;
     }
 
+    .play-count {
+      position: absolute;
+      display: block;
+      top: 3px;
+      left: 0;
+      width: 100%;
+      font-size: 12px;
+      text-align: right;
+      font-weight: $baseFontWeight;
+      color: $lightTxtColor;
+    }
+
+    .count-num{
+      margin:0 5px;
+    }
+
     .img {
       width: 100%;
+    
     }
 
     .name {
       display: block;
       margin-top: 5px;
-      font-weight: 500;
+      font-weight: $baseFontWeight;
       text-align: left;
       color: $baseTxtColor;
 
