@@ -15,7 +15,7 @@
       </li>
     </ul>
     <div class="right-right">
-      <a-input-search placeholder="搜索" />
+      <el-input size="small" placeholder="搜索" prefix-icon="el-icon-search"></el-input>
       <ul class="system-btns">
       </ul>
     </div>
@@ -73,11 +73,7 @@ export default {
       display: inline-block;
     }
 
-    .ant-input-search {
-      width: auto;
-    }
-
-    .ant-input {
+    .el-input__inner {
       border: none;
     }
   }

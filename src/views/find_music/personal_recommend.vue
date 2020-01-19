@@ -7,12 +7,15 @@
 <div class="personal-recommend">
   <!-- 轮播 -->
   <div class="carousel-banner">
-    <a-carousel>
-      <div class="carousel-item" v-for="item in carouselList" :key="item.id">
-        <img class="img" :src="item.imageUrl" />
-      </div>
-    </a-carousel>
+    <el-carousel :interval="4000" type="card" height="145px">
+      <el-carousel-item v-for="item in carouselList" :key="item.id">
+        <div class="img-item">
+          <img class="img" :src="item.imageUrl" />
+        </div>
+      </el-carousel-item>
+    </el-carousel>
   </div>
+
   <!-- 推荐歌单 -->
   <div class="recommend-play-list">
     <!-- 推荐歌单 -->
@@ -21,7 +24,7 @@
       <li class="list-item" v-for="item in recPlayList" :key="item.id">
         <span class="img-box">
           <span class="play-count">
-            <a-icon type="play-circle" />
+            <i class="icon el-icon-video-play"></i>
             <span class="count-num">{{(item.playCount/10000).toFixed(0)+"万"}}</span>
           </span>
           <img class="img" :src="item.picUrl" />
@@ -29,23 +32,28 @@
         <span class="label">{{item.name}}</span>
       </li>
     </ul>
-    <!-- 独家放送 -->
+  </div>
+
+  <!-- 独家放送 -->
+  <div class="exclusive-mv">
     <span class="title">独家放送</span>
     <ul class="mv-list">
       <li class="mv-item" v-for="item in exclusiveList" :key="item.id">
         <a class="img-box" v-if="item.type===19" :href="item.url" target="_blank">
-          <a-icon type="link" />
+          <i class="icon el-icon-link" />
           <img class="img" :src="item.picUrl" />
           <span class="label">{{item.name}}</span>
         </a>
         <span class="img-box" v-else>
-          <a-icon type="play-circle" />
+          <i class="icon el-icon-video-play"></i>
           <img class="img" :src="item.picUrl" />
           <span class="label">{{item.name}}</span>
         </span>
       </li>
     </ul>
-    <!-- 最新专辑 -->
+  </div>
+  <!-- 最新专辑 -->
+  <div class="new-album">
     <span class="title">最新专辑</span>
   </div>
 </div>
@@ -140,13 +148,27 @@ export default {
   .carousel-banner {
     margin-top: 20px;
 
-    .carousel-item {
+    .img-item {
       border-radius: 3px;
       overflow: hidden;
     }
 
     .img {
+      display: block;
       width: 100%;
+    }
+
+    .el-carousel__button {
+      margin: 0 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
+
+  .recommend-play-list {
+    .title {
+      margin-top: 0px;
     }
   }
 
@@ -178,6 +200,10 @@ export default {
       text-align: right;
       font-weight: $baseFontWeight;
       color: $lightTxtColor;
+
+      .icon {
+        font-weight: $baseFontWeight;
+      }
     }
 
     .count-num {
@@ -192,9 +218,9 @@ export default {
   .label {
     display: block;
     margin-top: 5px;
-    font-weight: $baseFontWeight;
     text-align: left;
     color: $baseTxtColor;
+    font-weight: $baseFontWeight;
 
     &:hover {
       cursor: pointer;
@@ -217,12 +243,13 @@ export default {
       display: block;
     }
 
-    .anticon {
+    .icon {
       position: absolute;
       top: 5px;
       left: 5px;
       color: $lightTxtColor;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: $baseFontWeight;
     }
 
     .img {

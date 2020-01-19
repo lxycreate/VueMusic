@@ -13,10 +13,14 @@ export default {
 <style lang="scss">
 body {
   margin: 0;
+  font-size: 14px;
 }
 
 a {
-  &:visited,&:focus {
+  text-decoration: none;
+
+  &:visited,
+  &:focus {
     text-decoration: none;
   }
 }

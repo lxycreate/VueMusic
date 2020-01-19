@@ -5,13 +5,13 @@
  -->
 <template>
 <div class="sidebar">
-  <a-menu>
-    <a-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item)">
+  <el-menu>
+    <el-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item)">
       <router-link :to="item.path" v-if="!item.meta.hidden">
         {{item.meta.title}}
       </router-link>
-    </a-menu-item>
-  </a-menu>
+    </el-menu-item>
+  </el-menu>
 </div>
 </template>
 
@@ -61,28 +61,31 @@ export default {
 .sidebar {
   width: $sideBarWidth;
 
-  .ant-menu {
+  .el-menu {
     height: 100%;
     overflow: auto;
     border: none;
     background-color: $sideBarBg;
 
-    .ant-menu-item {
+    .el-menu-item {
       margin: 0;
-      padding: 0;
-      color: $baseTxtColor;
-      font-weight: $baseFontWeight;
-      background-color: transparent;
+      padding: 0 !important;
 
       &.hidden {
         display: none;
       }
-    }
-  }
 
-  .router-link-active {
-    color: $mainColor;
-    background-color: rgba($mainColor, 0.1);
+      a {
+        display: block;
+        color: $baseTxtColor;
+        font-weight: $baseFontWeight;
+      }
+
+      .router-link-active {
+        color: $mainColor;
+        background-color: rgba($mainColor, 0.1);
+      }
+    }
   }
 }
 </style>
