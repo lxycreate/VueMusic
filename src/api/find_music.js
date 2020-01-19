@@ -7,6 +7,11 @@
 import service from "@/utils/request.js"
 
 /**
+ * 获取banner
+ */
+export const ajaxGetBannerList = () => service.get('/banner');
+
+/**
  * 获取推荐新音乐
  */
 export const ajaxGetRecNewSongs = () => service.get("/personalized/newsong");
@@ -16,5 +21,17 @@ export const ajaxGetRecNewSongs = () => service.get("/personalized/newsong");
  */
 export const ajaxGetRecPlayList = (data) => service.get("/personalized", data);
 
-export const testApi = (data) => service.get("/top/list", data);
+/**
+ * 独家放送 
+ */
+export const ajaxGetExclusiveList = () => service.get('/personalized/privatecontent');
 
+/**
+ * 最新专辑
+ */
+export const ajaxGetNewAlbumList = () => service.get('/album/newest');
+
+/**
+ * 推荐MV 
+ */
+export const ajaxGetRecMVList = () => service.get('/personalized/mv');

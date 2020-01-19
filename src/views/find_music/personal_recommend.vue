@@ -5,8 +5,17 @@
  -->
 <template>
 <div class="personal-recommend">
+  <!-- 轮播 -->
+  <div class="carousel-banner">
+    <a-carousel>
+      <div class="carousel-item" v-for="item in carouselList" :key="item.id">
+        <img class="img" :src="item.imageUrl" />
+      </div>
+    </a-carousel>
+  </div>
   <!-- 推荐歌单 -->
   <div class="recommend-play-list">
+    <!-- 推荐歌单 -->
     <span class="title">推荐歌单</span>
     <ul class="play-list">
       <li class="list-item" v-for="item in recPlayList" :key="item.id">
@@ -17,28 +26,68 @@
           </span>
           <img class="img" :src="item.picUrl" />
         </span>
-        <span class="name">{{item.name}}</span>
+        <span class="label">{{item.name}}</span>
       </li>
     </ul>
+    <!-- 独家放送 -->
+    <span class="title">独家放送</span>
+    <ul class="mv-list">
+      <li class="mv-item" v-for="item in exclusiveList" :key="item.id">
+        <a class="img-box" v-if="item.type===19" :href="item.url" target="_blank">
+          <a-icon type="link" />
+          <img class="img" :src="item.picUrl" />
+          <span class="label">{{item.name}}</span>
+        </a>
+        <span class="img-box" v-else>
+          <a-icon type="play-circle" />
+          <img class="img" :src="item.picUrl" />
+          <span class="label">{{item.name}}</span>
+        </span>
+      </li>
+    </ul>
+    <!-- 最新专辑 -->
+    <span class="title">最新专辑</span>
   </div>
 </div>
 </template>
 
 <script>
 import {
-  ajaxGetRecPlayList
+  ajaxGetRecPlayList,
+  ajaxGetExclusiveList,
+  ajaxGetNewAlbumList,
+  ajaxGetBannerList
 } from "@/api/find_music";
 export default {
   data() {
     return {
+      carouselList: [],
       // 推荐歌单
-      recPlayList: []
+      recPlayList: [],
+      // 独家放送
+      exclusiveList: []
     }
   },
   created() {
+    this.getBannerList();
     this.getRecPlayList();
+    this.getExclusiveList();
+    this.getNewAlbumList();
   },
   methods: {
+    /**
+     * 获取推荐MV 
+     */
+    getBannerList() {
+      ajaxGetBannerList().then(res => {
+        if (res && res.banners) {
+          this.carouselList = res.banners;
+        }
+      }, res => {})
+    },
+    /**
+     * 获取推荐歌单
+     */
     getRecPlayList() {
       ajaxGetRecPlayList({
         params: {
@@ -49,6 +98,25 @@ export default {
           this.recPlayList = res.result;
         }
       }, res => {})
+    },
+    /**
+     * 获取独家放送列表 
+     */
+    getExclusiveList() {
+      ajaxGetExclusiveList().then(res => {
+        if (res && res.result) {
+          this.exclusiveList = res.result;
+        }
+      }, res => {})
+    },
+
+    /**
+     * 获取最新专辑 
+     */
+    getNewAlbumList() {
+      ajaxGetNewAlbumList().then(res => {
+        console.log(res);
+      }, res => {})
     }
   },
 }
@@ -56,10 +124,11 @@ export default {
 
 <style lang="scss">
 .personal-recommend {
-  margin-top: 20px;
+  padding-bottom: 20px;
 
   .title {
     display: block;
+    margin-top: 20px;
     color: $baseTxtActiveColor;
     font-size: 16px;
     font-weight: $baseFontWeight;
@@ -67,6 +136,21 @@ export default {
     line-height: 1;
   }
 
+  // 轮播MV
+  .carousel-banner {
+    margin-top: 20px;
+
+    .carousel-item {
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .img {
+      width: 100%;
+    }
+  }
+
+  // 歌单
   .play-list {
     display: flex;
     flex-wrap: wrap;
@@ -74,7 +158,7 @@ export default {
 
     .list-item {
       margin-top: 10px;
-      width: 19%;
+      width: calc((100% - 40px)/5);
     }
 
     .img-box {
@@ -96,26 +180,55 @@ export default {
       color: $lightTxtColor;
     }
 
-    .count-num{
-      margin:0 5px;
+    .count-num {
+      margin: 0 5px;
     }
 
     .img {
       width: 100%;
-    
+    }
+  }
+
+  .label {
+    display: block;
+    margin-top: 5px;
+    font-weight: $baseFontWeight;
+    text-align: left;
+    color: $baseTxtColor;
+
+    &:hover {
+      cursor: pointer;
+      color: $baseTxtActiveColor;
+    }
+  }
+
+  // 独家放送MV列表
+  .mv-list {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .mv-item {
+      width: calc((100% - 20px)/3);
     }
 
-    .name {
+    .img-box {
+      position: relative;
       display: block;
-      margin-top: 5px;
-      font-weight: $baseFontWeight;
-      text-align: left;
-      color: $baseTxtColor;
+    }
 
-      &:hover {
-        cursor: pointer;
-        color: $baseTxtActiveColor;
-      }
+    .anticon {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      color: $lightTxtColor;
+      font-size: 16px;
+    }
+
+    .img {
+      display: block;
+      width: 100%;
+      border-radius: 3px;
     }
   }
 }
