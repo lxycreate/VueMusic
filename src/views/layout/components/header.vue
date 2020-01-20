@@ -9,7 +9,7 @@
   <div class="right">
     <ul class="page-btns">
       <li class="btn-item" v-for="item in pageBtns" :key="item.path">
-        <router-link class="btn-link" :to="item.path">
+        <router-link class="btn-link" :to="item.path" v-if="!item.meta.hidden">
           {{item.meta.title}}
         </router-link>
       </li>
@@ -56,15 +56,27 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    .btn-link{
+    .btn-link {
       color: #e5e5e5;
 
-      &:hover{
+      &:hover {
         color: #ffffff;
       }
 
       &.router-link-active {
         color: #ffffff;
+      }
+    }
+
+    .page-btns {
+      display: flex;
+    }
+
+    .btn-item {
+      margin-left: 15px;
+
+      &:first-child {
+        margin-left: 0;
       }
     }
 

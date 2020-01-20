@@ -44,6 +44,7 @@ ul {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   font-weight: $baseFontWeight;
+  color: $baseTxtActiveColor;
 
   background-color: #000000;
 }

@@ -28,6 +28,10 @@ export const routes = [
           name: "personalrecommend",
           component: () => import("@/views/find_music/personal_recommend"),
           meta: { title: "个性推荐", hasParent: true }
+        }, {
+          path: "/artist",
+          name: "artist",
+          meta: { title: "歌手详情", hasParent: true, hidden: true }
         }]
       }, {
         path: "/test",

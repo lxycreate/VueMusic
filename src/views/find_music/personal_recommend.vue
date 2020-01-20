@@ -57,12 +57,23 @@
     </ul>
   </div>
 
-  <!-- 最新专辑 -->
+  <!-- 最新音乐 -->
   <div class="new-music">
     <span class="title">最新音乐</span>
     <ul class="music-list">
       <li class="music-item" v-for="item in newMusicList" :key="item.id">
-        <div></div>
+        <div class="left"><img class="img" :src="item.picUrl" /></div>
+        <div class="right">
+          <div class="txt-box">
+            <span class="music-name">{{item.name}}
+              <span class="alias">{{item.song.alias.join('')}}</span>
+            </span>
+            <span class="artist">{{item.song.artists[0].name}}</span>
+          </div>
+          <div class="icon-box">
+            <i class="icon el-icon-video-play" />
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -93,8 +104,8 @@ export default {
   },
   created() {
     this.getBannerList();
-    this.getRecPlayList();
-    this.getExclusiveList();
+    // this.getRecPlayList();
+    // this.getExclusiveList();
     this.getNewMusicList();
   },
   methods: {
@@ -209,6 +220,17 @@ export default {
       height: 8px;
       border-radius: 50%;
     }
+
+    .el-carousel__indicators--outside button {
+      opacity: 0.5;
+    }
+
+    .el-carousel__indicator.is-active {
+      .el-carousel__button {
+        opacity: 0.8;
+        background-color: $mainColor;
+      }
+    }
   }
 
   // 推荐歌单
@@ -242,10 +264,7 @@ export default {
         width: 100%;
         font-size: 12px;
         text-align: right;
-
         color: $lightTxtColor;
-
-        .icon {}
       }
 
       .count-num {
@@ -305,12 +324,61 @@ export default {
   .new-music {
     .music-list {
       display: flex;
-      margin-top: 10px;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .music-item {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
       width: calc(50% - 10px);
+
+      .left {
+        width: 60px;
+        height: 60px;
+      }
+
+      .img {
+        display: block;
+        width: 100%;
+        border-radius: 3px;
+      }
+
+      .right {
+        display: flex;
+        width: calc(100% - 80px);
+        align-items: center;
+      }
+
+      .txt-box {
+        width: calc(100% - 30px);
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+      }
+
+      .alias {
+        color: $baseTxtColor;
+      }
+
+      .artist {
+        display: block;
+        margin-top: 10px;
+        color: $baseTxtColor;
+      }
+
+      .icon-box {
+        width: 30px;
+        height: 60px;
+        line-height: 60px;
+      }
+
+      .icon{
+        font-size: 20px;
+        color: $mainColor;
+      }
     }
   }
 }
