@@ -43,6 +43,7 @@ ul {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  font-weight: $baseFontWeight;
 
   background-color: #000000;
 }

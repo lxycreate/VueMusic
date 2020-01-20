@@ -1,5 +1,5 @@
 <template>
-<div>测试组件</div>
+<div class="test">测试组件</div>
 </template>
 
 <script>
@@ -8,6 +8,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.test {
+  padding-top: 30px;
+}
 </style>

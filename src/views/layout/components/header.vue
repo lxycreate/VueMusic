@@ -15,7 +15,7 @@
       </li>
     </ul>
     <div class="right-right">
-      <el-input size="small" placeholder="搜索" prefix-icon="el-icon-search"></el-input>
+      <el-input size="mini" placeholder="搜索" prefix-icon="el-icon-search"></el-input>
       <ul class="system-btns">
       </ul>
     </div>
@@ -58,7 +58,6 @@ export default {
 
     .btn-link{
       color: #e5e5e5;
-      font-weight: $baseFontWeight;
 
       &:hover{
         color: #ffffff;

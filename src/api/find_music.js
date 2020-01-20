@@ -12,11 +12,6 @@ import service from "@/utils/request.js"
 export const ajaxGetBannerList = () => service.get('/banner');
 
 /**
- * 获取推荐新音乐
- */
-export const ajaxGetRecNewSongs = () => service.get("/personalized/newsong");
-
-/**
  * 获取推荐歌单
  */
 export const ajaxGetRecPlayList = (data) => service.get("/personalized", data);
@@ -27,6 +22,11 @@ export const ajaxGetRecPlayList = (data) => service.get("/personalized", data);
 export const ajaxGetExclusiveList = () => service.get('/personalized/privatecontent');
 
 /**
+ * 获取推荐新音乐（该接口对应个性推荐模块下的最新音乐）
+ */
+export const ajaxGetRecNewSongs = () => service.get("/personalized/newsong");
+
+/**
  * 最新专辑
  */
 export const ajaxGetNewAlbumList = () => service.get('/album/newest');
@@ -35,3 +35,5 @@ export const ajaxGetNewAlbumList = () => service.get('/album/newest');
  * 推荐MV 
  */
 export const ajaxGetRecMVList = () => service.get('/personalized/mv');
+
+export const testApi = () => service.get('');

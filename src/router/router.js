@@ -1,34 +1,47 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Layout from "@/views/layout/layout";
+import MainContent from "@/views/layout/components/main_content"
 import PageContent from "@/views/layout/components/page_content"
+import PlayContent from "@/views/layout/components/play_content"
+import NotFound from "@/views/other/not_found"
 Vue.use(Router);
 
 export const routes = [
   {
     path: "/",
     component: Layout,
-    redirect: "/findMusic",
+    redirect: "/mainpage",
     children: [{
-      path: "/findMusic",
-      name: "findMusic",
-      component: PageContent,
-      redirect: "/findMusic/personalRecommend",
-      meta: { title: "发现音乐", hasBtn: true },
+      path: "/mainpage",
+      name: "mainpage",
+      component: MainContent,
+      redirect: "/findmusic",
       children: [{
-        path: "/findMusic/personalRecommend",
-        name: "personalRecommend",
-        component: () => import("@/views/find_music/personal_recommend"),
-        meta: { title: "个性推荐" }
+        path: "/findmusic",
+        name: "findmusic",
+        component: PageContent,
+        redirect: "/findmusic/personalrecommend",
+        meta: { title: "发现音乐", hasBtn: true },
+        children: [{
+          path: "/findmusic/personalrecommend",
+          name: "personalrecommend",
+          component: () => import("@/views/find_music/personal_recommend"),
+          meta: { title: "个性推荐", hasParent: true }
+        }]
+      }, {
+        path: "/test",
+        component: () => import("@/views/other/test"),
+        meta: { title: "测试组件" }
       }]
     }, {
-      path: "/test",
-      component: () => import("@/views/other/test"),
-      meta: { title: "测试组件" }
-    }, {
-      path: "/404",
-      component: () => import("@/views/other/not_found"),
-      meta: { title: "错误", hidden: true }
+      path: "/playcontent",
+      component: PlayContent,
+      children: [{
+        path: "/404",
+        component: NotFound,
+        meta: { title: "错误" }
+      }]
     }]
   },
 

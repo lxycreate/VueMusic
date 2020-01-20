@@ -7,10 +7,15 @@
 <div class="personal-recommend">
   <!-- 轮播 -->
   <div class="carousel-banner">
-    <el-carousel :interval="4000" type="card" height="145px">
+    <el-carousel :interval="4000" :autoplay="false" type="card" height="145px">
       <el-carousel-item v-for="item in carouselList" :key="item.id">
         <div class="img-item">
           <img class="img" :src="item.imageUrl" />
+          <span class="type-box">
+            <span class="type">
+              {{item.typeTitle}}
+            </span>
+          </span>
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -18,7 +23,6 @@
 
   <!-- 推荐歌单 -->
   <div class="recommend-play-list">
-    <!-- 推荐歌单 -->
     <span class="title">推荐歌单</span>
     <ul class="play-list">
       <li class="list-item" v-for="item in recPlayList" :key="item.id">
@@ -52,39 +56,50 @@
       </li>
     </ul>
   </div>
+
   <!-- 最新专辑 -->
-  <div class="new-album">
-    <span class="title">最新专辑</span>
+  <div class="new-music">
+    <span class="title">最新音乐</span>
+    <ul class="music-list">
+      <li class="music-item" v-for="item in newMusicList" :key="item.id">
+        <div></div>
+      </li>
+    </ul>
   </div>
 </div>
 </template>
 
 <script>
 import {
+  testApi,
+  ajaxGetBannerList,
   ajaxGetRecPlayList,
   ajaxGetExclusiveList,
   ajaxGetNewAlbumList,
-  ajaxGetBannerList
+  ajaxGetRecNewSongs
 } from "@/api/find_music";
 export default {
   data() {
     return {
+      // 轮播列表
       carouselList: [],
       // 推荐歌单
       recPlayList: [],
       // 独家放送
-      exclusiveList: []
+      exclusiveList: [],
+      // 最新音乐
+      newMusicList: []
     }
   },
   created() {
     this.getBannerList();
     this.getRecPlayList();
     this.getExclusiveList();
-    this.getNewAlbumList();
+    this.getNewMusicList();
   },
   methods: {
     /**
-     * 获取推荐MV 
+     * 获取banners
      */
     getBannerList() {
       ajaxGetBannerList().then(res => {
@@ -107,6 +122,7 @@ export default {
         }
       }, res => {})
     },
+
     /**
      * 获取独家放送列表 
      */
@@ -114,6 +130,17 @@ export default {
       ajaxGetExclusiveList().then(res => {
         if (res && res.result) {
           this.exclusiveList = res.result;
+        }
+      }, res => {})
+    },
+
+    /**
+     * 获取最新音乐
+     */
+    getNewMusicList() {
+      ajaxGetRecNewSongs().then(res => {
+        if (res && res.result) {
+          this.newMusicList = res.result;
         }
       }, res => {})
     },
@@ -139,23 +166,41 @@ export default {
     margin-top: 20px;
     color: $baseTxtActiveColor;
     font-size: 16px;
-    font-weight: $baseFontWeight;
+
     text-align: left;
     line-height: 1;
   }
 
-  // 轮播MV
+  // 轮播
   .carousel-banner {
     margin-top: 20px;
 
     .img-item {
-      border-radius: 3px;
+      position: relative;
+      border-radius: 5px;
       overflow: hidden;
     }
 
     .img {
       display: block;
       width: 100%;
+    }
+
+    .type-box {
+      position: absolute;
+      display: block;
+      top: 100%;
+      margin-top: -26px;
+      width: 100%;
+      text-align: right;
+    }
+
+    .type {
+      display: inline-block;
+      padding: 5px 8px;
+      border-top-left-radius: 5px;
+      color: $lightTxtColor;
+      background-color: $mainColor;
     }
 
     .el-carousel__button {
@@ -166,52 +211,50 @@ export default {
     }
   }
 
+  // 推荐歌单
   .recommend-play-list {
     .title {
       margin-top: 0px;
     }
-  }
 
-  // 歌单
-  .play-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    .play-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
 
-    .list-item {
-      margin-top: 10px;
-      width: calc((100% - 40px)/5);
-    }
-
-    .img-box {
-      position: relative;
-      display: block;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .play-count {
-      position: absolute;
-      display: block;
-      top: 3px;
-      left: 0;
-      width: 100%;
-      font-size: 12px;
-      text-align: right;
-      font-weight: $baseFontWeight;
-      color: $lightTxtColor;
-
-      .icon {
-        font-weight: $baseFontWeight;
+      .list-item {
+        margin-top: 10px;
+        width: calc((100% - 40px)/5);
       }
-    }
 
-    .count-num {
-      margin: 0 5px;
-    }
+      .img-box {
+        position: relative;
+        display: block;
+        border-radius: 3px;
+        overflow: hidden;
+      }
 
-    .img {
-      width: 100%;
+      .play-count {
+        position: absolute;
+        display: block;
+        top: 3px;
+        left: 0;
+        width: 100%;
+        font-size: 12px;
+        text-align: right;
+
+        color: $lightTxtColor;
+
+        .icon {}
+      }
+
+      .count-num {
+        margin: 0 5px;
+      }
+
+      .img {
+        width: 100%;
+      }
     }
   }
 
@@ -220,7 +263,6 @@ export default {
     margin-top: 5px;
     text-align: left;
     color: $baseTxtColor;
-    font-weight: $baseFontWeight;
 
     &:hover {
       cursor: pointer;
@@ -249,13 +291,26 @@ export default {
       left: 5px;
       color: $lightTxtColor;
       font-size: 18px;
-      font-weight: $baseFontWeight;
+
     }
 
     .img {
       display: block;
       width: 100%;
       border-radius: 3px;
+    }
+  }
+
+  // 最新音乐
+  .new-music {
+    .music-list {
+      display: flex;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    .music-item {
+      width: calc(50% - 10px);
     }
   }
 }

@@ -6,7 +6,7 @@
 <template>
 <div class="sidebar">
   <el-menu>
-    <el-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item)">
+    <el-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item.children)">
       <router-link :to="item.path" v-if="!item.meta.hidden">
         {{item.meta.title}}
       </router-link>
@@ -22,13 +22,14 @@ import {
 export default {
   data() {
     return {
-      sideBtns: []
+      sideBtns: [],
+      pageBtnsCache: {}
     }
   },
   computed: {
     routes() {
-      return this.$router.options.routes.filter((item) =>
-        item.path === "/")[0].children;
+      // 侧边导航
+      return getRouteChildren('/mainpage', this.$router.options.routes);
     }
   },
   mounted() {
@@ -37,23 +38,41 @@ export default {
   methods: {
     ...mapActions(["setPageBtnsAction"]),
     loadPageBtns() {
-      let routeInfo = undefined;
-      if (this.$route.meta.hasBtn) {
-        routeInfo = this.routes.filter(item => item.path === this.$route.path)[0];
-      } else {
-        let parentPath = this.$route.matched[this.$route.matched.length - 1].parent.path;
-        routeInfo = this.routes.filter(item => item.path === parentPath)[0];
+      let tempBtns = [];
+      if (this.$route.meta) {
+        // 有子路由
+        if (this.$route.meta.hasBtn) {
+          tempBtns = [...this.routes.filter(item => item.path === this.$route.path)[0].children];
+        }
+        // 有父路由
+        else if (this.$route.meta.hasParent) {
+          let parentPath = this.$route.matched[this.$route.matched.length - 1].parent.path;
+          tempBtns = [...getRouteChildren(parentPath, this.$router.options.routes)]
+        }
       }
-      this.updatePageBtns(routeInfo);
+      this.updatePageBtns(tempBtns);
     },
-    updatePageBtns(item) {
-      if (item && item.children) {
-        this.setPageBtnsAction([...item.children]);
-      } else {
-        this.setPageBtnsAction([]);
-      }
+    updatePageBtns(btns = []) {
+      this.setPageBtnsAction(btns);
     }
   },
+}
+
+// 获取路由的子路由按钮
+function getRouteChildren(path, routeConfig) {
+  if (Array.isArray(routeConfig)) {
+    let tempLen = routeConfig.length;
+    for (let i = 0; i < tempLen; ++i) {
+      let temp = routeConfig[i];
+      if (temp.path === path) {
+        return temp.children || [];
+      } else if (temp.children) {
+        return getRouteChildren(path, temp.children);
+      }
+    }
+  } else {
+    return [];
+  }
 }
 </script>
 
@@ -78,7 +97,6 @@ export default {
       a {
         display: block;
         color: $baseTxtColor;
-        font-weight: $baseFontWeight;
       }
 
       .router-link-active {

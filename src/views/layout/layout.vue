@@ -6,8 +6,8 @@
 <template>
 <div class="layout">
   <music-header></music-header>
-  <main-content></main-content>
-  <footer class="player-box">footer</footer>
+  <router-view></router-view>
+  <footer class="player-box"></footer>
 </div>
 </template>
 
