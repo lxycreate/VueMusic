@@ -24,7 +24,7 @@
   <!-- 推荐歌单 -->
   <div class="recommend-play-list">
     <span class="title">推荐歌单</span>
-    <ul class="play-list">
+    <ul class="rec-play-list">
       <li class="list-item" v-for="item in recPlayList" :key="item.id">
         <span class="img-box">
           <span class="play-count">
@@ -41,7 +41,7 @@
   <!-- 独家放送 -->
   <div class="exclusive-mv">
     <span class="title">独家放送</span>
-    <ul class="mv-list">
+    <ul class="exclusive-mv-list">
       <li class="mv-item" v-for="item in exclusiveList" :key="item.id">
         <a class="img-box" v-if="item.type===19" :href="item.url" target="_blank">
           <i class="icon el-icon-link" />
@@ -60,7 +60,7 @@
   <!-- 最新音乐 -->
   <div class="new-music">
     <span class="title">最新音乐</span>
-    <ul class="music-list">
+    <ul class="new-music-list">
       <li class="music-item" v-for="item in newMusicList" :key="item.id">
         <div class="left"><img class="img" :src="item.picUrl" /></div>
         <div class="right">
@@ -239,7 +239,7 @@ export default {
       margin-top: 0px;
     }
 
-    .play-list {
+    .rec-play-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -290,7 +290,7 @@ export default {
   }
 
   // 独家放送MV列表
-  .mv-list {
+  .exclusive-mv-list {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
@@ -322,7 +322,7 @@ export default {
 
   // 最新音乐
   .new-music {
-    .music-list {
+    .new-music-list {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;

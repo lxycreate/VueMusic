@@ -45,9 +45,8 @@ export default {
           tempBtns = [...this.routes.filter(item => item.path === this.$route.path)[0].children];
         }
         // 有父路由
-        else if (this.$route.meta.hasParent) {
-          let parentPath = this.$route.matched[this.$route.matched.length - 1].parent.path;
-          tempBtns = [...getRouteChildren(parentPath, this.$router.options.routes)]
+        else if (this.$route.meta.parentPath) {
+          tempBtns = [...getRouteChildren(this.$route.meta.parentPath, this.$router.options.routes)]
         }
       }
       this.updatePageBtns(tempBtns);

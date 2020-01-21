@@ -45,6 +45,7 @@ ul {
   text-align: center;
   font-weight: $baseFontWeight;
   color: $baseTxtActiveColor;
+  font-size: 14px;
 
   background-color: #000000;
 }

@@ -27,11 +27,28 @@ export const routes = [
           path: "/findmusic/personalrecommend",
           name: "personalrecommend",
           component: () => import("@/views/find_music/personal_recommend"),
-          meta: { title: "个性推荐", hasParent: true }
+          meta: { title: "个性推荐", parentPath: "/findmusic" }
+        }, {
+          path: "/findmusic/playlist",
+          name: "playlist",
+          component: PageContent,
+          redirect: "/findmusic/playlist/list",
+          meta: { title: "歌单", parentPath: "/findmusic" },
+          children: [{
+            path: "/findmusic/playlist/list",
+            name: "list",
+            component: () => import("@/views/find_music/play_list"),
+            meta: { title: "歌单", parentPath: "/findmusic" },
+          }, {
+            path: "/findmusic/playlist/quality",
+            name: "quality",
+            component: () => import("@/views/find_music/quality_play_list"),
+            meta: { title: "精品歌单", parentPath: "/findmusic" }
+          }]
         }, {
           path: "/artist",
           name: "artist",
-          meta: { title: "歌手详情", hasParent: true, hidden: true }
+          meta: { title: "歌手详情", hidden: true }
         }]
       }, {
         path: "/test",

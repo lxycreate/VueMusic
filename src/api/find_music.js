@@ -36,4 +36,24 @@ export const ajaxGetNewAlbumList = () => service.get('/album/newest');
  */
 export const ajaxGetRecMVList = () => service.get('/personalized/mv');
 
+/**
+ * 获取歌单分类
+ */
+export const ajaxGetPlayListCatList = () => service.get('/playlist/catlist');
+
+/**
+ * 获取热门歌单分类
+ */
+export const ajaxGetHotPlayListCatList = () => service.get('/playlist/hot');
+
+/**
+ * 获取歌单分类下的歌单
+ */
+export const ajaxGetPlayListByCat = (data) => service.get('/top/playlist', data);
+
+/**
+ * 获取精品歌单
+ */
+export const ajaxGetQualityPlayListByCat = (data) => service.get('/top/playlist/highquality', data);
+
 export const testApi = () => service.get('');
