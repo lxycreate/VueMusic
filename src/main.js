@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from "@/router/router";
+import "@/router/permission";
 import store from "@/store";
 import "normalize.css/normalize.css";
 import { Input, Menu, MenuItem, Carousel, CarouselItem, Button } from 'element-ui';

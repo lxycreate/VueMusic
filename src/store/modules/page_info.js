@@ -5,7 +5,7 @@
  */
 const pageInfo = {
   state: {
-    pageBtns: []
+    pageBtns: [],  // 页面按钮
   },
   mutations: {
     setPageBtns(state, btns) {
@@ -18,7 +18,7 @@ const pageInfo = {
     }
   },
   getters: {
-    pageBtns: state => state.pageBtns
+    pageBtns: state => state.pageBtns,
   }
 }
 

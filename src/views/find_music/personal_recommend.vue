@@ -375,7 +375,7 @@ export default {
         line-height: 60px;
       }
 
-      .icon{
+      .icon {
         font-size: 20px;
         color: $mainColor;
       }
