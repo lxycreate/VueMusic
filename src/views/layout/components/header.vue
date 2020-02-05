@@ -5,7 +5,10 @@
  -->
 <template>
 <section class="music-header">
-  <div class="left"></div>
+  <div class="left">
+    <el-button type="text" icon="el-icon-arrow-left" :disabled="currentIndex===1" @click="prePage"></el-button>
+    <el-button type="text" icon="el-icon-arrow-right" :disabled="currentIndex===historyLength" @click="nextPage"></el-button>
+  </div>
   <div class="right">
     <ul class="page-btns">
       <li class="btn-item" v-for="item in pageBtns" :key="item.path">
@@ -25,7 +28,8 @@
 
 <script>
 import {
-  mapGetters
+  mapGetters,
+  mapActions
 } from 'vuex'
 export default {
   data() {
@@ -34,8 +38,25 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageBtns"])
-  }
+    ...mapGetters(["pageBtns", 'currentIndex', 'historyLength'])
+  },
+  methods: {
+    ...mapActions(['setCurrentIndexAction', 'setRecordFlagAction']),
+    prePage() {
+      if (this.currentIndex > 1) {
+        this.$router.go(-1);
+        this.setRecordFlagAction(false);
+        this.setCurrentIndexAction(this.currentIndex - 1);
+      }
+    },
+    nextPage() {
+      if (this.currentIndex < this.historyLength) {
+        this.$router.go(1);
+        this.setRecordFlagAction(false);
+        this.setCurrentIndexAction(this.currentIndex + 1);
+      }
+    }
+  },
 };
 </script>
 
@@ -46,7 +67,17 @@ export default {
   background-color: $mainColor;
 
   .left {
+    display: flex;
     width: $sideBarWidth;
+    justify-content: center;
+
+    .el-button {
+      color: $lightTxtColor;
+
+      &.is-disabled {
+        color: rgba($lightTxtColor, 0.6);
+      }
+    }
   }
 
   .right {

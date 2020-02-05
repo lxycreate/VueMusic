@@ -7,7 +7,10 @@ import store from '@/store'
 import router from './router';
 
 router.afterEach((to, from) => {
-  setTimeout(() => {
-    console.log(store.getters.disPre)
-  });
+  if (store.getters.recordFlag) {
+    store.dispatch('setHistoryAction', to.path);
+    store.dispatch('setCurrentIndexAction',store.getters.currentIndex+1);
+  } else {
+    store.dispatch('setRecordFlagAction', true);
+  }
 })
