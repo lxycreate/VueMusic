@@ -32,28 +32,26 @@ import {
   mapActions
 } from 'vuex'
 export default {
-  data() {
-    return {
-      systemBtns: []
-    };
-  },
   computed: {
-    ...mapGetters(["pageBtns", 'currentIndex', 'historyLength'])
+    ...mapGetters(["pageBtns", 'currentIndex', 'historyLength', 'history'])
   },
+  mounted() {},
   methods: {
-    ...mapActions(['setCurrentIndexAction', 'setRecordFlagAction']),
+    ...mapActions(['setCutFlagAction', 'setCurrentIndexAction', 'setRecordFlagAction', 'setBrowserEventFlagAction']),
     prePage() {
       if (this.currentIndex > 1) {
-        this.$router.go(-1);
+        this.setCutFlagAction(true);
         this.setRecordFlagAction(false);
         this.setCurrentIndexAction(this.currentIndex - 1);
+        this.$router.go(-1);
       }
     },
     nextPage() {
       if (this.currentIndex < this.historyLength) {
-        this.$router.go(1);
+        this.setCutFlagAction(true);
         this.setRecordFlagAction(false);
         this.setCurrentIndexAction(this.currentIndex + 1);
+        this.$router.go(1);
       }
     }
   },

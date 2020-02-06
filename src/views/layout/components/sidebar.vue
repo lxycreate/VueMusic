@@ -6,7 +6,7 @@
 <template>
 <div class="sidebar">
   <el-menu>
-    <el-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}" @click="updatePageBtns(item.children)">
+    <el-menu-item v-for="item in routes" :key="item.path" :class="{'hidden':item.meta.hidden}">
       <router-link :to="item.path" v-if="!item.meta.hidden">
         {{item.meta.title}}
       </router-link>
@@ -17,6 +17,7 @@
 
 <script>
 import {
+  mapGetters,
   mapActions
 } from "vuex"
 export default {
@@ -30,6 +31,12 @@ export default {
     routes() {
       // 侧边导航
       return getRouteChildren('/mainpage', this.$router.options.routes);
+    },
+    ...mapGetters(['currentIndex'])
+  },
+  watch: {
+    '$route.path'(val, oldVal) {
+      this.loadPageBtns()
     }
   },
   mounted() {
