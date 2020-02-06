@@ -4,7 +4,7 @@ import router from "@/router/router";
 import "@/router/permission";
 import store from "@/store";
 import "normalize.css/normalize.css";
-import { Input, Menu, MenuItem, Carousel, CarouselItem, Button } from 'element-ui';
+import { Input, Menu, MenuItem, Carousel, CarouselItem, Button, Drawer } from 'element-ui';
 Vue.config.productionTip = false
 
 Vue.use(Input);
@@ -13,6 +13,7 @@ Vue.use(MenuItem);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
 Vue.use(Button);
+Vue.use(Drawer);
 
 new Vue({
   router,

@@ -9,7 +9,7 @@
   <section class="page-container">
     <router-view></router-view>
   </section>
-  <!-- <search-history></search-history> -->
+  <search-history></search-history>
 </section>
 </template>
 

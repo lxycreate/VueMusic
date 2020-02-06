@@ -4,7 +4,7 @@
  * @Date: 2020-01-13
  -->
 <template>
-<section class="music-header">
+<section class="music-header" @click="closeSearchPanelEvent">
   <div class="left">
     <el-button type="text" icon="el-icon-arrow-left" :disabled="currentIndex===1" @click="prePage"></el-button>
     <el-button type="text" icon="el-icon-arrow-right" :disabled="currentIndex===historyLength" @click="nextPage"></el-button>
@@ -18,9 +18,12 @@
       </li>
     </ul>
     <div class="right-right">
-      <el-input size="mini" placeholder="搜索" prefix-icon="el-icon-search"></el-input>
-      <ul class="system-btns">
-      </ul>
+      <el-input
+        ref="jsSearch"
+        size="mini"
+        placeholder="搜索"
+        prefix-icon="el-icon-search"
+        @click.native="showSearchPanelEvent"></el-input>
     </div>
   </div>
 </section>
@@ -32,12 +35,21 @@ import {
   mapActions
 } from 'vuex'
 export default {
-  computed: {
-    ...mapGetters(["pageBtns", 'currentIndex', 'historyLength', 'history'])
+  data() {
+    return {
+      iconObj: {},
+      inputObj: {}
+    }
   },
-  mounted() {},
+  computed: {
+    ...mapGetters(["pageBtns", 'currentIndex', 'historyLength', 'history', 'showSearchPanel'])
+  },
+  mounted() {
+    this.iconObj = this.$refs.jsSearch.$el.getElementsByClassName('el-input__icon')[0];
+    this.inputObj = this.$refs.jsSearch.$el.getElementsByClassName('el-input__inner')[0];
+  },
   methods: {
-    ...mapActions(['setCutFlagAction', 'setCurrentIndexAction', 'setRecordFlagAction', 'setBrowserEventFlagAction']),
+    ...mapActions(['setCutFlagAction', 'setCurrentIndexAction', 'setRecordFlagAction', 'setBrowserEventFlagAction', 'setShowSearchPanelAction']),
     prePage() {
       if (this.currentIndex > 1) {
         this.setCutFlagAction(true);
@@ -52,6 +64,14 @@ export default {
         this.setRecordFlagAction(false);
         this.setCurrentIndexAction(this.currentIndex + 1);
         this.$router.go(1);
+      }
+    },
+    showSearchPanelEvent() {
+      this.setShowSearchPanelAction(true);
+    },
+    closeSearchPanelEvent() {
+      if (event.target !== this.iconObj && event.target !== this.inputObj) {
+        this.setShowSearchPanelAction(false);
       }
     }
   },

@@ -4,24 +4,53 @@
  * @Date: 2020-01-20
  -->
 <template>
-<div class="search-history"></div>
+<div class="search-history">
+  <el-drawer
+    ref="jsDrawer"
+    :modal="false"
+    :withHeader="false"
+    :visible.sync="showPanel"
+    :append-to-body="false"
+    :modal-append-to-body="false"
+    :before-close="closeSearchPanel">
+    <span>我来啦!</span>
+  </el-drawer>
+</div>
 </template>
 
 <script>
+import {
+  mapGetters,
+  mapActions,
+} from 'vuex'
 export default {
-
+  data() {
+    return {
+      showPanel: false
+    }
+  },
+  computed: {
+    ...mapGetters(['showSearchPanel'])
+  },
+  watch: {
+    showSearchPanel(val, oldVal) {
+      this.showPanel = val;
+    }
+  },
+  methods: {
+    ...mapActions(['setShowSearchPanelAction']),
+    closeSearchPanel(done) {
+      this.setShowSearchPanelAction(false);
+      done();
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 .search-history {
-  position: absolute;
-  z-index: 9;
-  top: 0;
-  left: 100%;
-  margin-left: -200px;
-  width: 200px;
-  height: 100%;
-  background-color: aquamarine;
+  .el-drawer__wrapper {
+    position: absolute;
+  }
 }
 </style>
