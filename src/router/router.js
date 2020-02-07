@@ -2,8 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Layout from "@/views/layout/layout";
 import MainContent from "@/views/layout/components/main_content"
+import NoSideBarContent from "@/views/layout/components/no_sidebar_content"
 import PageContent from "@/views/layout/components/page_content"
-import PlayContent from "@/views/layout/components/play_content"
 import NotFound from "@/views/other/not_found"
 Vue.use(Router);
 
@@ -56,8 +56,8 @@ export const routes = [
         meta: { title: "测试组件" }
       }]
     }, {
-      path: "/playcontent",
-      component: PlayContent,
+      path: "/nosidebarcontent",
+      component: NoSideBarContent,
       children: [{
         path: "/404",
         component: NotFound,

@@ -1,12 +1,12 @@
 <!--
- * @Description: 播放组件
+ * @Description: 页面内容（不带侧边导航的组件）
  * @Author: lixianying
  * @Date: 2020-01-19
  -->
 <template>
-<section class="play-content">
+<section class="no-sidebar-content">
   <router-view></router-view>
-  <!-- <search-history></search-history> -->
+  <search-history></search-history>
 </section>
 </template>
 
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-.play-content {
+.no-sidebar-content {
   position: relative;
   height: calc(100% - 110px);
 }

@@ -1,5 +1,5 @@
 <!--
- * @Description: 页面内容（不带侧边导航的组件）
+ * @Description: 页面内容
  * @Author: lixianying
  * @Date: 2020-01-14
  -->

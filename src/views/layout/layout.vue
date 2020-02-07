@@ -6,19 +6,20 @@
 <template>
 <div class="layout">
   <music-header></music-header>
+  <!-- 此处渲染main_content或no_sidebar_content的内容 -->
+  <!-- main_content和no_sidebar_content渲染page_content的内容 -->
   <router-view></router-view>
-  <footer class="player-box"></footer>
+  <music-footer></music-footer>
 </div>
 </template>
 
 <script>
 import MusicHeader from "./components/header";
-import SideBar from "./components/sidebar";
-import MainContent from "./components/main_content";
+import MusicFooter from "./components/footer";
 export default {
   components: {
     MusicHeader,
-    MainContent
+    MusicFooter
   }
 }
 </script>
@@ -31,11 +32,5 @@ export default {
   background-color: #ffffff;
   border-radius: 3px;
   overflow: hidden;
-  
-  .player-box {
-    width: 100%;
-    height: 60px;
-    background-color: $mainColor;
-  }
 }
 </style>
