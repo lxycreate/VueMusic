@@ -4,9 +4,9 @@
  * @Date: 2020-01-21
  -->
 <template>
-<div class="play-list">
+<div class="play-list-page">
   <!-- 精品歌单封面 -->
-  <div class="quality-list-cover">
+  <div class="quality-list-cover" v-if="qualityCover">
     <img class="bg-img" :src="qualityCover.coverImgUrl" />
     <div class="left"><img class="img" :src="qualityCover.coverImgUrl" /></div>
     <div class="right">
@@ -18,7 +18,22 @@
 
   <!-- 歌单分类 -->
   <div class="list-tabs">
-
+    <el-tabs v-model="activeTab" @tab-click="cilckTabEvent">
+      <el-tab-pane v-for="item in catList" :key="item.name" :label="item.name" :name="item.name">
+        <ul class="list-content">
+          <li class="list-item" v-for="(item,index) in playList" :key="item.id+index">
+            <span class="img-box">
+              <span class="play-count">
+                <i class="icon el-icon-video-play"></i>
+                <span class="count-num">{{(item.playCount/10000).toFixed(0)+"万"}}</span>
+              </span>
+              <img class="img" :src="item.coverImgUrl" />
+            </span>
+            <span class="label">{{item.name}}</span>
+          </li>
+        </ul>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </div>
 </template>
@@ -32,11 +47,13 @@ import {
 export default {
   data() {
     return {
+      canRequest: true, //限制请求频率
+      activeTab: '全部',
       qualityCover: {},
       listProps: {
         cat: "全部",
         pageNum: 1,
-        pageSize: 20,
+        pageSize: 16,
       },
       catList: [],
       playList: []
@@ -48,23 +65,70 @@ export default {
     this.getQualityPlayListByCat();
   },
   methods: {
+    initListProps() {
+      this.listProps = {
+        cat: "全部",
+        pageNum: 1,
+        pageSize: 16,
+      }
+    },
+
+    disableRequest() {
+      if (!this.canRequest) {
+        this.$message.error('请不要频繁请求!');
+      }
+      this.canRequest = false;
+      return;
+    },
+
+    enableRequest() {
+      if (!this.canRequest) {
+        setTimeout(() => {
+          this.canRequest = true;
+        }, 1000)
+      }
+    },
+
+    cilckTabEvent(tab, event) {
+      this.initListProps();
+      this.listProps.cat = this.activeTab;
+      this.getPlayListByCat();
+      this.getQualityPlayListByCat();
+    },
+
+    /**
+     * 获取歌单分类列表 
+     */
     getHotPlayListCatList() {
       ajaxGetHotPlayListCatList().then(res => {
         if (res && res.tags) {
-          this.catList = res.tags;
+          this.catList = [{
+            name: '全部'
+          }, ...res.tags];
         }
       }, res => {})
     },
+    /**
+     * 根据分类获取歌单
+     */
     getPlayListByCat() {
+      this.playList = [];
       ajaxGetPlayListByCat({
         params: {
-          limit: 10,
-          offset: 30
+          limit: this.listProps.pageSize,
+          offset: (this.listProps.pageNum - 1) * this.listProps.pageSize,
+          cat: this.listProps.cat,
         }
       }).then(res => {
-        // console.log(res);
+        if (res && res.playlists) {
+          this.playList = res.playlists;
+        }
       }, res => {})
     },
+
+    /**
+     * 获取精品歌单封面
+     */
     getQualityPlayListByCat() {
       ajaxGetQualityPlayListByCat({
         params: {
@@ -72,8 +136,10 @@ export default {
           cat: this.listProps.cat
         }
       }).then(res => {
-        if (res && res.playlists) {
+        if (res && res.playlists.length > 0) {
           this.qualityCover = res.playlists[0];
+        } else {
+          this.qualityCover = undefined;
         }
       }, res => {})
     }
@@ -84,7 +150,9 @@ export default {
 <style lang="scss">
 $qualityColor: #ddb814;
 
-.play-list {
+.play-list-page {
+  height: 100%;
+
   .quality-list-cover {
     position: relative;
     display: flex;
@@ -94,6 +162,16 @@ $qualityColor: #ddb814;
     border-radius: 3px;
     overflow: hidden;
 
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 100%;
+    //   filter: blur(20px);
+    // }
+
     .bg-img {
       position: absolute;
       top: 0;
@@ -102,6 +180,8 @@ $qualityColor: #ddb814;
       height: 100%;
       object-fit: cover;
       filter: blur(20px);
+      border-radius: 3px;
+      overflow: hidden;
     }
 
     .left {
@@ -141,7 +221,91 @@ $qualityColor: #ddb814;
       }
 
       .copywriter {
-        color: rgba($baseTxtColor, 0.6);
+        color: rgba($lightTxtColor, 0.8);
+      }
+    }
+  }
+
+  .list-tabs {
+    margin-top: 10px;
+
+    .el-tabs__nav-wrap {
+      padding: 0;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .el-tabs__header {
+      margin-bottom: 0;
+    }
+
+    .el-tabs__nav {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .el-tabs__item {
+      height: 30px;
+      padding: 0;
+
+      &.is-active {
+        color: $mainColor;
+      }
+    }
+
+    .el-tabs__active-bar {
+      display: none;
+    }
+
+    .list-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-bottom: 10px;
+
+      .list-item {
+        margin-top: 10px;
+        width: calc((100% - 40px)/4);
+      }
+
+      .img-box {
+        position: relative;
+        display: block;
+      }
+
+      .play-count {
+        position: absolute;
+        display: block;
+        top: 3px;
+        left: 0;
+        width: 100%;
+        font-size: 12px;
+        text-align: right;
+        color: $lightTxtColor;
+      }
+
+      .count-num {
+        margin: 0 5px;
+      }
+
+      .img {
+        width: 100%;
+        border-radius: 3px;
+      }
+
+      .label {
+        display: block;
+        margin-top: 5px;
+        text-align: left;
+        color: $baseTxtColor;
+
+        &:hover {
+          cursor: pointer;
+          color: $baseTxtActiveColor;
+        }
       }
     }
   }

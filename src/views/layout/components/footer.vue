@@ -1,10 +1,24 @@
 <template>
-<footer class="music-footer"></footer>
+<footer class="music-footer" @click="closeSearchPanelEvent"></footer>
 </template>
 
 <script>
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
 export default {
-
+  computed: {
+    ...mapGetters(['showSearchPanel']),
+  },
+  methods: {
+    ...mapActions(['setShowSearchPanelAction']),
+    closeSearchPanelEvent() {
+      if (this.showSearchPanel) {
+        this.setShowSearchPanelAction(false);
+      }
+    }
+  }
 }
 </script>
 

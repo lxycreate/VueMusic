@@ -7,7 +7,6 @@
 <div class="search-history">
   <el-drawer
     ref="jsDrawer"
-    :modal="false"
     :withHeader="false"
     :visible.sync="showPanel"
     :append-to-body="false"
@@ -51,6 +50,7 @@ export default {
 .search-history {
   .el-drawer__wrapper {
     position: absolute;
+    background-color: rgba(#000000, 0.1)
   }
 }
 </style>

@@ -4,7 +4,7 @@
  * @Date: 2020-01-14
  -->
 <template>
-<div class="personal-recommend">
+<div class="personal-recommend-page">
   <!-- 轮播 -->
   <div class="carousel-banner">
     <el-carousel :interval="4000" :autoplay="false" type="card" height="145px">
@@ -169,7 +169,7 @@ export default {
 </script>
 
 <style lang="scss">
-.personal-recommend {
+.personal-recommend-page {
   padding-bottom: 20px;
 
   .title {

@@ -7,7 +7,9 @@
 <section class="main-content">
   <side-bar></side-bar>
   <section class="page-container">
-    <router-view></router-view>
+    <el-scrollbar>
+      <router-view></router-view>
+    </el-scrollbar>
   </section>
   <search-history></search-history>
 </section>
@@ -34,8 +36,11 @@ export default {
   .page-container {
     width: $contentWidth;
     height: 100%;
-    padding: 0 20px;
     overflow: auto;
+  }
+
+  .el-scrollbar__wrap {
+    padding: 0 20px;
   }
 }
 </style>

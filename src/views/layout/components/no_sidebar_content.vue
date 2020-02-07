@@ -5,7 +5,9 @@
  -->
 <template>
 <section class="no-sidebar-content">
-  <router-view></router-view>
+  <el-scrollbar>
+    <router-view></router-view>
+  </el-scrollbar>
   <search-history></search-history>
 </section>
 </template>
@@ -23,5 +25,9 @@ export default {
 .no-sidebar-content {
   position: relative;
   height: calc(100% - 110px);
+
+  .el-scrollbar__wrap {
+    padding: 0 20px;
+  }
 }
 </style>

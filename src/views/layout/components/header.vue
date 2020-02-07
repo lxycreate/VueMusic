@@ -70,7 +70,7 @@ export default {
       this.setShowSearchPanelAction(true);
     },
     closeSearchPanelEvent() {
-      if (event.target !== this.iconObj && event.target !== this.inputObj) {
+      if (this.showSearchPanel && event.target !== this.iconObj && event.target !== this.inputObj) {
         this.setShowSearchPanelAction(false);
       }
     }

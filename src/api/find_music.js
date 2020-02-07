@@ -47,12 +47,12 @@ export const ajaxGetPlayListCatList = () => service.get('/playlist/catlist');
 export const ajaxGetHotPlayListCatList = () => service.get('/playlist/hot');
 
 /**
- * 获取歌单分类下的歌单
+ * 获取歌单分类下的歌单（支持分页）
  */
 export const ajaxGetPlayListByCat = (data) => service.get('/top/playlist', data);
 
 /**
- * 获取精品歌单
+ * 获取精品歌单（支持分页）
  */
 export const ajaxGetQualityPlayListByCat = (data) => service.get('/top/playlist/highquality', data);
 
