@@ -38,14 +38,14 @@ export const routes = [
             path: "/findmusic/playlist/list",
             name: "list",
             component: () => import("@/views/find_music/play_list"),
-            meta: { title: "歌单", parentPath: "/findmusic" },
+            meta: { title: "歌单", parentPath: "/findmusic", keepAlive: true },
           }, {
             path: "/findmusic/playlist/quality",
             name: "quality",
             component: () => import("@/views/find_music/quality_play_list"),
             meta: { title: "精品歌单", parentPath: "/findmusic" },
           }, {
-            path: "/findmusic/playlist/detail",
+            path: "/playlist/detail",
             name: "listdetail",
             component: () => import("@/views/find_music/play_list_detail"),
             meta: { title: "歌单详情" },

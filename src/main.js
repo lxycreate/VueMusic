@@ -6,7 +6,7 @@ import store from "@/store";
 import "normalize.css/normalize.css";
 import {
   Input, Menu, MenuItem, Carousel, CarouselItem, Button, Drawer, Tabs,
-  TabPane, Scrollbar, Pagination, Message
+  TabPane, Scrollbar, Pagination, Message,Tag
 } from 'element-ui';
 Vue.config.productionTip = false
 
@@ -21,6 +21,7 @@ Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Scrollbar);
 Vue.use(Pagination);
+Vue.use(Tag);
 Vue.prototype.$message = Message;
 
 new Vue({

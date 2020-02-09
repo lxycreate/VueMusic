@@ -18,14 +18,14 @@
 
   <!-- 歌单分类 -->
   <div class="play-list-tabs">
-    <el-tabs v-model="activeTab" @tab-click="cilckTabEvent">
+    <el-tabs v-model="activeTab">
       <el-tab-pane v-for="item in catList" :key="item.name" :label="item.name" :name="item.name">
         <ul class="list-content">
-          <li class="list-item" v-for="(item,index) in playList" :key="item.id+index">
+          <li class="list-item" v-for="(item,index) in playList" :key="item.id+index" @click="jumpToListDetail(item.id)">
             <span class="img-box">
               <span class="play-count">
                 <i class="icon el-icon-video-play"></i>
-                <span class="count-num">{{(item.playCount/10000).toFixed(0)+"万"}}</span>
+                <span class="count-num">{{item.playCount>1000?(item.playCount/10000).toFixed(0)+"万":item.playCount}}</span>
               </span>
               <img class="img" :src="item.coverImgUrl" />
             </span>
@@ -70,6 +70,14 @@ export default {
       messageObj: undefined
     }
   },
+  watch: {
+    activeTab(val, oldVal) {
+      this.initListProps();
+      this.listProps.cat = this.activeTab;
+      this.getPlayListByCat();
+      this.getQualityPlayListByCat();
+    }
+  },
   created() {
     this.getHotPlayListCatList();
     this.getPlayListByCat();
@@ -85,46 +93,18 @@ export default {
       }
     },
 
-    disableRequest() {
-      this.canRequest = false;
-    },
-
-    enableRequest() {
-      setTimeout(() => {
-        this.canRequest = true;
-      }, 1000)
-    },
-
-    showErrorMesaage() {
-      if (!this.messageObj) {
-        this.messageObj = this.$message({
-          message: '请不要频繁请求!',
-          type: 'error',
-          duration: 1500,
-          onClose: () => {
-            this.messageObj = undefined;
-          }
-        });
-      }
-    },
-
-    cilckTabEvent(tab, event) {
-      this.initListProps();
-      this.listProps.cat = this.activeTab;
-      if (this.canRequest) {
-        this.disableRequest();
-      } else {
-        this.showErrorMesaage();
-        return;
-      }
-      this.getPlayListByCat();
-      this.getQualityPlayListByCat();
-      this.enableRequest();
-    },
-
     handleCurrentChange(pageNum) {
       this.listProps.pageNum = pageNum;
       this.getPlayListByCat();
+    },
+
+    jumpToListDetail(id) {
+      this.$router.push({
+        path: '/playlist/detail',
+        query: {
+          id: id
+        }
+      })
     },
 
     /**
@@ -335,6 +315,10 @@ $qualityColor: #ddb814;
 
       &.is-background .el-pager li:not(.disabled).active {
         background-color: $mainColor;
+
+        &:hover {
+          color: $lightTxtColor;
+        }
       }
 
       &.is-background .el-pager li:not(.disabled):hover {
