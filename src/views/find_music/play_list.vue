@@ -15,9 +15,9 @@
       <span class="txt copywriter">{{qualityCover.copywriter}}</span>
     </div>
   </div>
-  
+
   <!-- 歌单分类 -->
-  <div class="list-tabs">
+  <div class="play-list-tabs">
     <el-tabs v-model="activeTab" @tab-click="cilckTabEvent">
       <el-tab-pane v-for="item in catList" :key="item.name" :label="item.name" :name="item.name">
         <ul class="list-content">
@@ -32,6 +32,15 @@
             <span class="label">{{item.name}}</span>
           </li>
         </ul>
+
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :current-page.sync="listProps.pageNum"
+          :total="listProps.total"
+          :page-size.sync="listProps.pageSize"
+          @current-change="handleCurrentChange">
+        </el-pagination>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -54,9 +63,11 @@ export default {
         cat: "全部",
         pageNum: 1,
         pageSize: 16,
+        total: 0
       },
       catList: [],
-      playList: []
+      playList: [],
+      messageObj: undefined
     }
   },
   created() {
@@ -70,30 +81,50 @@ export default {
         cat: "全部",
         pageNum: 1,
         pageSize: 16,
+        total: 0
       }
     },
 
     disableRequest() {
-      if (!this.canRequest) {
-        this.$message.error('请不要频繁请求!');
-      }
       this.canRequest = false;
-      return;
     },
 
     enableRequest() {
-      if (!this.canRequest) {
-        setTimeout(() => {
-          this.canRequest = true;
-        }, 1000)
+      setTimeout(() => {
+        this.canRequest = true;
+      }, 1000)
+    },
+
+    showErrorMesaage() {
+      if (!this.messageObj) {
+        this.messageObj = this.$message({
+          message: '请不要频繁请求!',
+          type: 'error',
+          duration: 1500,
+          onClose: () => {
+            this.messageObj = undefined;
+          }
+        });
       }
     },
 
     cilckTabEvent(tab, event) {
       this.initListProps();
       this.listProps.cat = this.activeTab;
+      if (this.canRequest) {
+        this.disableRequest();
+      } else {
+        this.showErrorMesaage();
+        return;
+      }
       this.getPlayListByCat();
       this.getQualityPlayListByCat();
+      this.enableRequest();
+    },
+
+    handleCurrentChange(pageNum) {
+      this.listProps.pageNum = pageNum;
+      this.getPlayListByCat();
     },
 
     /**
@@ -112,7 +143,6 @@ export default {
      * 根据分类获取歌单
      */
     getPlayListByCat() {
-      this.playList = [];
       ajaxGetPlayListByCat({
         params: {
           limit: this.listProps.pageSize,
@@ -122,6 +152,7 @@ export default {
       }).then(res => {
         if (res && res.playlists) {
           this.playList = res.playlists;
+          this.listProps.total = res.total;
         }
       }, res => {})
     },
@@ -160,17 +191,7 @@ $qualityColor: #ddb814;
     padding: 10px;
     border-radius: 3px;
     overflow: hidden;
-     transform: translateZ(0);
-
-    // &::before {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 100%;
-    //   filter: blur(20px);
-    // }
+    transform: translateZ(0);
 
     .bg-img {
       position: absolute;
@@ -226,7 +247,7 @@ $qualityColor: #ddb814;
     }
   }
 
-  .list-tabs {
+  .play-list-tabs {
     margin-top: 10px;
 
     .el-tabs__nav-wrap {
@@ -306,6 +327,18 @@ $qualityColor: #ddb814;
           cursor: pointer;
           color: $baseTxtActiveColor;
         }
+      }
+    }
+
+    .el-pagination {
+      padding-bottom: 10px;
+
+      &.is-background .el-pager li:not(.disabled).active {
+        background-color: $mainColor;
+      }
+
+      &.is-background .el-pager li:not(.disabled):hover {
+        color: $mainColor;
       }
     }
   }

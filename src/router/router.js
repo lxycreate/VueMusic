@@ -43,7 +43,12 @@ export const routes = [
             path: "/findmusic/playlist/quality",
             name: "quality",
             component: () => import("@/views/find_music/quality_play_list"),
-            meta: { title: "精品歌单", parentPath: "/findmusic" }
+            meta: { title: "精品歌单", parentPath: "/findmusic" },
+          }, {
+            path: "/findmusic/playlist/detail",
+            name: "listdetail",
+            component: () => import("@/views/find_music/play_list_detail"),
+            meta: { title: "歌单详情" },
           }]
         }, {
           path: "/artist",
