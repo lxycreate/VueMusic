@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 .music-footer {
   width: 100%;
-  height: 60px;
+  height: $footerHeight;
   background-color: $mainColor;
 }
 </style>

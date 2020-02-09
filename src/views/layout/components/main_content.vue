@@ -31,7 +31,7 @@ export default {
 .main-content {
   position: relative;
   display: flex;
-  height: calc(100% - 110px);
+  height: $bodyHeight;
 
   .page-container {
     width: $contentWidth;
@@ -39,7 +39,11 @@ export default {
     overflow: auto;
   }
 
-  .el-scrollbar__wrap {
+  .el-scrollbar {
+    height: 100%;
+  }
+
+  .el-scrollbar__view {
     padding: 0 20px;
   }
 }

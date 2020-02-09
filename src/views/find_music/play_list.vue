@@ -15,7 +15,7 @@
       <span class="txt copywriter">{{qualityCover.copywriter}}</span>
     </div>
   </div>
-
+  
   <!-- 歌单分类 -->
   <div class="list-tabs">
     <el-tabs v-model="activeTab" @tab-click="cilckTabEvent">
@@ -151,7 +151,6 @@ export default {
 $qualityColor: #ddb814;
 
 .play-list-page {
-  height: 100%;
 
   .quality-list-cover {
     position: relative;
@@ -161,6 +160,7 @@ $qualityColor: #ddb814;
     padding: 10px;
     border-radius: 3px;
     overflow: hidden;
+     transform: translateZ(0);
 
     // &::before {
     //   content: '';

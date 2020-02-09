@@ -81,7 +81,7 @@ export default {
 <style lang="scss">
 .music-header {
   display: flex;
-  height: 50px;
+  height: $headerHeight;
   background-color: $mainColor;
 
   .left {
@@ -106,14 +106,14 @@ export default {
     align-items: center;
 
     .btn-link {
-      color: #e5e5e5;
+      color: rgba($lightTxtColor, 0.7);
 
       &:hover {
-        color: #ffffff;
+        color: $lightTxtColor;
       }
 
       &.router-link-active {
-        color: #ffffff;
+        color: $lightTxtColor;
       }
     }
 

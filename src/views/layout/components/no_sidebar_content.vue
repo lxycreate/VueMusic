@@ -24,9 +24,13 @@ export default {
 <style lang="scss">
 .no-sidebar-content {
   position: relative;
-  height: calc(100% - 110px);
+  height: $bodyHeight;
 
-  .el-scrollbar__wrap {
+  .el-scrollbar {
+    height: 100%;
+  }
+
+  .el-scrollbar__view {
     padding: 0 20px;
   }
 }
