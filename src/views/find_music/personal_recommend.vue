@@ -25,11 +25,11 @@
   <div class="recommend-play-list">
     <span class="title">推荐歌单</span>
     <ul class="rec-play-list">
-      <li class="list-item" v-for="item in recPlayList" :key="item.id">
+      <li class="list-item" v-for="item in recPlayList" :key="item.id" @click="jumpToListDetail(item.id)">
         <span class="img-box">
           <span class="play-count">
             <i class="icon el-icon-video-play"></i>
-            <span class="count-num">{{(item.playCount/10000).toFixed(0)+"万"}}</span>
+            <span class="count-num">{{item.playCount>10000?`${(item.playCount/10000).toFixed(0)}万`:item.playCount}}</span>
           </span>
           <img class="img" :src="item.picUrl" />
         </span>
@@ -104,11 +104,20 @@ export default {
   },
   created() {
     this.getBannerList();
-    // this.getRecPlayList();
-    // this.getExclusiveList();
+    this.getRecPlayList();
+    this.getExclusiveList();
     this.getNewMusicList();
   },
   methods: {
+    jumpToListDetail(id) {
+      this.$router.push({
+        path: '/playlist/detail',
+        query: {
+          id: id,
+          type: 'normal'
+        }
+      })
+    },
     /**
      * 获取banners
      */

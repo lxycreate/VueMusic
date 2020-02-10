@@ -25,7 +25,7 @@
             <span class="img-box">
               <span class="play-count">
                 <i class="icon el-icon-video-play"></i>
-                <span class="count-num">{{item.playCount>1000?(item.playCount/10000).toFixed(0)+"万":item.playCount}}</span>
+                <span class="count-num">{{item.playCount>10000?`${(item.playCount/10000).toFixed(0)}万`:item.playCount}}</span>
               </span>
               <img class="img" :src="item.coverImgUrl" />
             </span>
@@ -102,7 +102,8 @@ export default {
       this.$router.push({
         path: '/playlist/detail',
         query: {
-          id: id
+          id: id,
+          type: 'normal'
         }
       })
     },

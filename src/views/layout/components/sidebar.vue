@@ -96,6 +96,10 @@ function getRouteChildren(path, routeConfig) {
       margin: 0;
       padding: 0 !important;
 
+      &:hover {
+        background-color: transparent;
+      }
+
       &.hidden {
         display: none;
       }
@@ -103,6 +107,10 @@ function getRouteChildren(path, routeConfig) {
       a {
         display: block;
         color: $baseTxtColor;
+
+        &:hover {
+          background-color: rgba($mainColor, 0.1);
+        }
       }
 
       .router-link-active {
