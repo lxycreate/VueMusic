@@ -36,7 +36,7 @@ export default {
   },
   watch: {
     '$route.path'(val, oldVal) {
-      this.loadPageBtns()
+      this.loadPageBtns();
     }
   },
   mounted() {
@@ -73,7 +73,10 @@ function getRouteChildren(path, routeConfig) {
       if (temp.path === path) {
         return temp.children || [];
       } else if (temp.children) {
-        return getRouteChildren(path, temp.children);
+        let result = getRouteChildren(path, temp.children);
+        if (result) {
+          return result;
+        }
       }
     }
   } else {

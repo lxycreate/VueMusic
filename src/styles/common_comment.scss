@@ -1,0 +1,66 @@
+/**
+ * @param {type} 通用评论样式
+ */
+$userNameColor: rgba($mainColor, 0.9);
+$beRepliedColor: #f1f1f1;
+.common-comment {
+  padding-bottom: 20px;
+
+  .comment-item {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+
+    &:last-child {
+      .comment-box {
+        border: none;
+      }
+    }
+
+    .avatar-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      .img {
+        width: 100%;
+      }
+    }
+
+    .comment-box {
+      width: calc(100% - 55px);
+      min-height: 40px;
+      padding-bottom: 15px;
+      text-align: left;
+      border-bottom: 1px solid $beRepliedColor;
+
+      .reply {
+        color: $baseTxtColor;
+        line-height: 20px;
+      }
+
+      .user-name {
+        color: $userNameColor;
+      }
+
+      .be-replied {
+        margin-top: 8px;
+        padding: 5px 0 5px 5px;
+        border-radius: 5px;
+        font-size: 13px;
+        line-height: 20px;
+        color: rgba($baseTxtColor, 0.8);
+        background-color: $beRepliedColor;
+      }
+
+      .time-box {
+        margin-top: 8px;
+        .time {
+          font-size: 13px;
+          color: rgba($baseTxtColor, 0.4);
+        }
+      }
+    }
+  }
+}

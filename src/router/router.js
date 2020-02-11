@@ -27,7 +27,7 @@ const routes = [
           path: "/findmusic/personalrecommend",
           name: "personalrecommend",
           component: () => import("@/views/find_music/personal_recommend"),
-          meta: { title: "个性推荐", parentPath: "/findmusic" }
+          meta: { title: "个性推荐", parentPath: "/findmusic", keepAlive: true }
         }, {
           path: "/findmusic/playlist",
           name: "playlist",
@@ -59,6 +59,18 @@ const routes = [
         path: "/test",
         component: () => import("@/views/other/test"),
         meta: { title: "测试组件" }
+      }, {
+        path: "/comment",
+        name: "comment",
+        component: PageContent,
+        redirect: "/comment/hot",
+        meta: { title: "评论", hidden: true, hasBtn: true },
+        children: [{
+          path: "/comment/hot",
+          name: "hotcomment",
+          component: () => import("@/views/other/hot_comment"),
+          meta: { title: "热门评论", parentPath: "/comment" }
+        }]
       }]
     }, {
       path: "/nosidebarcontent",
@@ -79,7 +91,9 @@ const routes = [
 
 const createRouter = () =>
   new Router({
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: (to, from, savedPosition) => {
+      return { y: 0 };
+    },
     routes: routes
   });
 

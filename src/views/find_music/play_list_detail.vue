@@ -32,7 +32,7 @@
       <div class="txt-box intro">
         <span class="label">简介：</span>
         <el-collapse>
-          <el-collapse-item :title="`${title}`" name="1">
+          <el-collapse-item :title="`${desTitle}`" name="1">
             <span v-html="listDetail.description"></span>
           </el-collapse-item>
         </el-collapse>
@@ -69,7 +69,86 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="listDetail.commentCount>10000?`评论(${(listDetail.commentCount/10000).toFixed(2)}万)`:`评论(${listDetail.commentCount})`" name="comment">评论</el-tab-pane>
+      <el-tab-pane :label="listDetail.commentCount>10000?`评论(${(listDetail.commentCount/10000).toFixed(2)}万)`:`评论(${listDetail.commentCount})`" name="comment">
+        <div class="playlist-detail-comment common-comment">
+          <!-- 热评 -->
+          <div class="hot-comments" v-if="commentProps.pageNum===1&&commentDetail.hotComments.length>0">
+            <span class="title">热门评论</span>
+            <ul class="comment-list">
+              <li class="comment-item" v-for="item in commentDetail.hotComments" :key="item.commentId">
+                <!-- 头像 -->
+                <div class="avatar-box">
+                  <img class="img" :src="item.user.avatarUrl">
+                </div>
+                <!-- 评论 -->
+                <div class="comment-box">
+                  <!-- 回复 -->
+                  <div class="reply">
+                    <span class="user-name">{{`${item.user.nickname}：`}}</span>{{item.content}}
+                  </div>
+                  <!-- 被回复 -->
+                  <div class="be-replied" v-if="item.beReplied.length>0">
+                    <ul class="be-replied-list">
+                      <li class="be-replied-item" v-for="beRepliedItem in item.beReplied" :key="beRepliedItem.beRepliedCommentId">
+                        <span class="user-name">{{`@${beRepliedItem.user.nickname}：`}}</span>
+                        {{beRepliedItem.content}}
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- 时间 -->
+                  <div class="time-box">
+                    <span class="time">{{formateTime(item.time)}}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 评论 -->
+          <div class="comments" v-if="commentDetail.comments.length>0">
+            <span class="title">最新评论</span>
+            <ul class="comment-list">
+              <li class="comment-item" v-for="item in commentDetail.comments" :key="item.commentId">
+                <!-- 头像 -->
+                <div class="avatar-box">
+                  <img class="img" v-lazy="item.user.avatarUrl">
+                </div>
+                <!-- 评论 -->
+                <div class="comment-box">
+                  <!-- 回复 -->
+                  <div class="reply">
+                    <span class="user-name">{{`${item.user.nickname}：`}}</span>{{item.content}}
+                  </div>
+                  <!-- 被回复 -->
+                  <div class="be-replied" v-if="item.beReplied.length>0">
+                    <ul class="be-replied-list">
+                      <li class="be-replied-item" v-for="beRepliedItem in item.beReplied" :key="beRepliedItem.beRepliedCommentId">
+                        <span class="user-name">{{`@${beRepliedItem.user.nickname}:`}}</span>
+                        {{beRepliedItem.content}}
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- 时间 -->
+                  <div class="time-box">
+                    <span class="time">{{formateTime(item.time)}}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <el-pagination
+            v-show="commentDetail.total>commentProps.pageSize"
+            background
+            layout="prev, pager, next"
+            :current-page.sync="commentProps.pageNum"
+            :total="commentProps.total"
+            :page-size.sync="commentProps.pageSize"
+            @current-change="handleCurrentChange">
+          </el-pagination>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </div>
@@ -78,20 +157,42 @@
 <script>
 import {
   ajaxGetPlayListDetail,
-  ajaxGetSongsDetail
+  ajaxGetSongsDetail,
+  ajaxGetPlayListComments
 } from '@/api/find_music'
+import {
+  formateTime
+} from '@/utils/tools.js'
 export default {
   data() {
     return {
-      tagTypes: ['', 'success', 'info', 'danger', 'warning'],
-      id: '',
-      type: '',
+      tagTypes: ['', 'success', 'info', 'danger', 'warning'], // 标签类型
+      id: '', // 歌单id
+      type: '', // 歌单类型，精品歌单还是歌单
       listDetail: {
         commentCount: 0
       },
-      musicList: [],
-      title: '',
-      activeTab: 'music'
+      musicList: [], // 歌单的歌曲列表
+      desTitle: '', // 简介的标题
+      activeTab: 'music',
+      commentProps: {
+        total: 0,
+        pageNum: 1,
+        pageSize: 20,
+        before: '' //分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+      },
+      commentDetail: {
+        comments: [],
+        hotComments: []
+      }
+    }
+  },
+  watch: {
+    activeTab(val, oldVal) {
+      if (val === 'comment') {
+        this.commentProps.pageNum = 1;
+        this.getPlayListComments();
+      }
     }
   },
   created() {
@@ -100,6 +201,10 @@ export default {
     this.getPlayListDetail();
   },
   methods: {
+    formateTime: formateTime,
+    /**
+     * 计算歌曲时长
+     */
     computeTime(duration) {
       let tempMinute = parseInt(duration / 60000),
         minute = tempMinute >= 10 ? tempMinute : `0${tempMinute}`,
@@ -108,6 +213,40 @@ export default {
       return `${minute}:${second}`;
     },
 
+    handleCurrentChange(val) {
+      this.commentProps.pageNum = val;
+      this.getPlayListComments();
+    },
+
+    /**
+     * 获取歌单评论
+     */
+    getPlayListComments() {
+      let params = {
+        id: this.id,
+        limit: this.commentProps.pageSize,
+        offset: (this.commentProps.pageNum - 1) * this.commentProps.pageSize
+      };
+      if (this.commentProps.pageNum * this.commentProps.pageSize > 5000) {
+        params.before = this.commentProps.before;
+      }
+      ajaxGetPlayListComments({
+        params: params
+      }).then(res => {
+        if (res) {
+          this.commentDetail = res;
+          if (!this.commentDetail.hotComments) {
+            this.commentDetail.hotComments = [];
+          }
+          this.commentProps.before = res.comments[res.comments.length - 1].time;
+          this.commentProps.total = res.total;
+        }
+      }, res => {})
+    },
+
+    /**
+     * 获取歌单详情
+     */
     getPlayListDetail() {
       if (!this.id) {
         this.$message.error('歌单ID不存在');
@@ -123,10 +262,10 @@ export default {
           this.musicList = res.playlist.tracks;
           let tempIndex = this.listDetail.description.indexOf('\n');
           if (tempIndex !== -1) {
-            this.title = this.listDetail.description.substring(0, tempIndex);
+            this.desTitle = this.listDetail.description.substring(0, tempIndex);
             this.listDetail.description = this.listDetail.description.substring(tempIndex + 1, this.listDetail.description.length).replace(/\n/g, '<br>')
           } else {
-            this.title = this.listDetail.description.substring(0, this.listDetail.description.length);
+            this.desTitle = this.listDetail.description.substring(0, this.listDetail.description.length);
             this.listDetail.description = '';
           }
         }
@@ -266,6 +405,24 @@ export default {
       }
     }
 
+  }
+
+  .playlist-detail-comment {
+    margin-top: 10px;
+
+    .title {
+      display: block;
+      text-align: left;
+      font-size: 18px;
+    }
+
+    .hot-comments {
+      margin-bottom: 20px;
+    }
+
+    .comments {
+      margin-top: 10px;
+    }
   }
 
 }

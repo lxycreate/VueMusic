@@ -35,7 +35,7 @@ export default {
 
   .page-container {
     width: $contentWidth;
-    height: 100%;
+    // height: 100%;
     overflow: auto;
   }
 

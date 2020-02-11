@@ -62,6 +62,11 @@ export const ajaxGetQualityPlayListByCat = (data) => service.get('/top/playlist/
 export const ajaxGetPlayListDetail = (data) => service.get('/playlist/detail', data);
 
 /**
+ * 获取歌单评论
+ */
+export const ajaxGetPlayListComments = (data) => service.get('/comment/playlist', data);
+
+/**
  * 获取歌曲详情
  */
 export const ajaxGetSongsDetail = (data) => service.get('/song/detail', data);

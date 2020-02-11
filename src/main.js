@@ -4,6 +4,7 @@ import router from "@/router/router"
 import "@/router/permission"
 import store from "@/store"
 import "normalize.css/normalize.css"
+import '@/styles/index.scss'
 import VueLazyLoad from 'vue-lazyload'
 
 import {

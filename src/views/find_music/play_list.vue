@@ -313,22 +313,6 @@ $qualityColor: #ddb814;
         }
       }
     }
-
-    .el-pagination {
-      padding-bottom: 10px;
-
-      &.is-background .el-pager li:not(.disabled).active {
-        background-color: $mainColor;
-
-        &:hover {
-          color: $lightTxtColor;
-        }
-      }
-
-      &.is-background .el-pager li:not(.disabled):hover {
-        color: $mainColor;
-      }
-    }
   }
 }
 </style>
