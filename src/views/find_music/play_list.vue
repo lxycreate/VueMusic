@@ -27,13 +27,15 @@
                 <i class="icon el-icon-video-play"></i>
                 <span class="count-num">{{item.playCount>10000?`${(item.playCount/10000).toFixed(0)}万`:item.playCount}}</span>
               </span>
-              <img class="img" :src="item.coverImgUrl" />
+              <img class="img" v-lazy="item.coverImgUrl" />
             </span>
             <span class="label">{{item.name}}</span>
           </li>
+          <li class="list-item" v-for="i in playList.length%4" :key="`index${i}`"></li>
         </ul>
 
         <el-pagination
+          v-show="playList.length>0"
           background
           layout="prev, pager, next"
           :current-page.sync="listProps.pageNum"
@@ -124,6 +126,7 @@ export default {
      * 根据分类获取歌单
      */
     getPlayListByCat() {
+      this.playList = [];
       ajaxGetPlayListByCat({
         params: {
           limit: this.listProps.pageSize,

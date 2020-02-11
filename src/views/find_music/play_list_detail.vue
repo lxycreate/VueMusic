@@ -104,7 +104,7 @@ export default {
       let tempMinute = parseInt(duration / 60000),
         minute = tempMinute >= 10 ? tempMinute : `0${tempMinute}`,
         tempSecond = parseInt((duration / 1000) % 60),
-        second = tempSecond >= 10 ? tempSecond :`0${tempSecond}`;
+        second = tempSecond >= 10 ? tempSecond : `0${tempSecond}`;
       return `${minute}:${second}`;
     },
 
@@ -121,8 +121,14 @@ export default {
         if (res && res.playlist) {
           this.listDetail = res.playlist;
           this.musicList = res.playlist.tracks;
-          this.title = this.listDetail.description.substring(0, this.listDetail.description.indexOf('\n'));
-          this.listDetail.description = this.listDetail.description.substring(this.listDetail.description.indexOf('\n') + 1, this.listDetail.description.length).replace(/\n/g, '<br>')
+          let tempIndex = this.listDetail.description.indexOf('\n');
+          if (tempIndex !== -1) {
+            this.title = this.listDetail.description.substring(0, tempIndex);
+            this.listDetail.description = this.listDetail.description.substring(tempIndex + 1, this.listDetail.description.length).replace(/\n/g, '<br>')
+          } else {
+            this.title = this.listDetail.description.substring(0, this.listDetail.description.length);
+            this.listDetail.description = '';
+          }
         }
       }, res => {})
     }
@@ -231,6 +237,10 @@ export default {
 
   .table-box {
     margin-top: 10px;
+
+    .el-tabs__header {
+      margin-bottom: 10px;
+    }
 
     .el-tabs__active-bar {
       color: $mainColor;

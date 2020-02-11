@@ -7,6 +7,15 @@ import store from '@/store'
 import router from './router';
 
 router.afterEach((to, from) => {
+  // 只有当从歌单页跳转到歌单详情页时，歌单页才被缓存下来
+  if (from.path === '/findmusic/playlist/list') {
+    if (to.path === '/playlist/detail') {
+      from.meta.keepAlive = true;
+    }
+    else {
+      from.meta.keepAlive = false;
+    }
+  }
   if (store.getters.recordFlag) {
     // 上一次操作是前进或后退时要截断历史记录
     if (store.getters.cutFlag) {

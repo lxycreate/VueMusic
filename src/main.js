@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from "@/router/router";
-import "@/router/permission";
-import store from "@/store";
-import "normalize.css/normalize.css";
+import router from "@/router/router"
+import "@/router/permission"
+import store from "@/store"
+import "normalize.css/normalize.css"
+import VueLazyLoad from 'vue-lazyload'
+
 import {
   Input, Menu, MenuItem, Carousel, CarouselItem, Button, Drawer, Tabs,
   TabPane, Scrollbar, Pagination, Message, Tag, Collapse, CollapseItem,
@@ -28,6 +30,7 @@ Vue.use(CollapseItem);
 Vue.use(Table);
 Vue.use(TableColumn);
 Vue.prototype.$message = Message;
+Vue.use(VueLazyLoad)
 
 new Vue({
   router,

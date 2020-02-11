@@ -45,7 +45,7 @@
       <li class="mv-item" v-for="item in exclusiveList" :key="item.id">
         <a class="img-box" v-if="item.type===19" :href="item.url" target="_blank">
           <i class="icon el-icon-link" />
-          <img class="img" :src="item.picUrl" />
+          <img class="img" v-lazy="item.picUrl" />
           <span class="label">{{item.name}}</span>
         </a>
         <span class="img-box" v-else>
@@ -62,7 +62,7 @@
     <span class="title">最新音乐</span>
     <ul class="new-music-list">
       <li class="music-item" v-for="item in newMusicList" :key="item.id">
-        <div class="left"><img class="img" :src="item.picUrl" /></div>
+        <div class="left"><img class="img" v-lazy="item.picUrl" /></div>
         <div class="right">
           <div class="txt-box">
             <span class="music-name">{{item.name}}

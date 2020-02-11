@@ -7,7 +7,7 @@ import PageContent from "@/views/layout/components/page_content"
 import NotFound from "@/views/other/not_found"
 Vue.use(Router);
 
-export const routes = [
+const routes = [
   {
     path: "/",
     component: Layout,
