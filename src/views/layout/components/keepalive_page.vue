@@ -4,7 +4,7 @@
  * @Date: 2020-01-14
  -->
 <template>
-<div class="page-content">
+<div class="keep-alive-page">
   <keep-alive :include="keepAliveArr" :max="10">
     <router-view></router-view>
   </keep-alive>

@@ -33,6 +33,28 @@
   }
 }
 
+// 公共按钮样式
+.el-button {
+  border: none;
+
+  &.el-button--primary {
+    border-color: $mainColor;
+    background-color: $mainColor;
+
+    &:hover {
+      background-color: rgba($mainColor, 0.8);
+    }
+
+    &.is-disabled,
+    &.is-disabled:active,
+    &.is-disabled:focus,
+    &.is-disabled:hover {
+      background-color: rgba($mainColor, 0.6);
+      border-color: rgba($mainColor, 0.6);
+    }
+  }
+}
+
 // 公共分页样式
 .el-pagination {
   padding-bottom: 10px;

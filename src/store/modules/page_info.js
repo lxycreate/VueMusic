@@ -8,7 +8,7 @@ const pageInfo = {
     pageBtns: [],  // 页面按钮
     showSearchPanel: false, // 显示搜索面板
     jsPageScroll: undefined,
-    keepAliveArr: ['test']
+    keepAliveArr: []
   },
   mutations: {
     setPageBtns(state, btns) {

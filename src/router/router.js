@@ -14,46 +14,35 @@ const routes = [
     redirect: "/mainpage",
     children: [{
       path: "/mainpage",
-      name: "mainpage",
       component: MainContent,
       redirect: "/findmusic",
       children: [{
         path: "/findmusic",
-        name: "findmusic",
         component: PageContent,
         redirect: "/findmusic/personalrecommend",
         meta: { title: "发现音乐", hasBtn: true },
         children: [{
           path: "/findmusic/personalrecommend",
-          name: "personalrecommend",
           component: () => import("@/views/find_music/personal_recommend"),
           meta: { title: "个性推荐", parentPath: "/findmusic", name: 'PersonalRecommend' }
         }, {
           path: "/findmusic/playlist",
-          name: "playlist",
           component: PageContent,
           redirect: "/findmusic/playlist/list",
           meta: { title: "歌单", parentPath: "/findmusic" },
           children: [{
             path: "/findmusic/playlist/list",
-            name: "list",
             component: () => import("@/views/find_music/play_list"),
             meta: { title: "歌单", parentPath: "/findmusic", name: 'PlayList' },
           }, {
             path: "/findmusic/playlist/quality",
-            name: "quality",
             component: () => import("@/views/find_music/quality_play_list"),
             meta: { title: "精品歌单", parentPath: "/findmusic" },
           }, {
             path: "/playlist/detail",
-            name: "listdetail",
             component: () => import("@/views/find_music/play_list_detail"),
             meta: { title: "歌单详情" },
           }]
-        }, {
-          path: "/artist",
-          name: "artist",
-          meta: { title: "歌手详情", hidden: true }
         }]
       }, {
         path: "/test",
@@ -61,13 +50,11 @@ const routes = [
         meta: { title: "测试组件" }
       }, {
         path: "/comment",
-        name: "comment",
         component: PageContent,
         redirect: "/comment/hot",
         meta: { title: "评论", hidden: true, hasBtn: true },
         children: [{
           path: "/comment/hot",
-          name: "hotcomment",
           component: () => import("@/views/other/hot_comment"),
           meta: { title: "热门评论", parentPath: "/comment" }
         }]

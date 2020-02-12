@@ -69,7 +69,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="listDetail.commentCount>10000?`评论(${(listDetail.commentCount/10000).toFixed(2)}万)`:`评论(${listDetail.commentCount})`" name="comment">
+      <el-tab-pane :label="listDetail.commentCount>10000?`评论（${(listDetail.commentCount/10000).toFixed(2)}万）`:`评论（${listDetail.commentCount}）`" name="comment">
         <div class="playlist-detail-comment common-comment">
           <!-- 热评 -->
           <div class="hot-comments" v-if="commentProps.pageNum===1&&commentDetail.hotComments.length>0">
@@ -102,11 +102,14 @@
                 </div>
               </li>
             </ul>
+            <div class="btn-box" v-if="commentDetail.moreHot">
+              <el-button size="medium" type="primary" round @click="jumpToHotComment">更多热门评论</el-button>
+            </div>
           </div>
 
           <!-- 评论 -->
           <div class="comments" v-if="commentDetail.comments.length>0">
-            <span class="title">最新评论</span>
+            <span class="title">{{`最新评论（${commentDetail.total}）`}}</span>
             <ul class="comment-list">
               <li class="comment-item" v-for="item in commentDetail.comments" :key="item.commentId">
                 <!-- 头像 -->
@@ -164,6 +167,7 @@ import {
   formateTime
 } from '@/utils/tools.js'
 export default {
+  name: 'ListDetail',
   data() {
     return {
       tagTypes: ['', 'success', 'info', 'danger', 'warning'], // 标签类型
@@ -202,6 +206,18 @@ export default {
   },
   methods: {
     formateTime: formateTime,
+    /**
+     * 跳转到热门评论页
+     */
+    jumpToHotComment() {
+      this.$router.push({
+        path: '/comment/hot',
+        query: {
+          id: this.id,
+          type: 2
+        }
+      })
+    },
     /**
      * 计算歌曲时长
      */
@@ -417,7 +433,7 @@ export default {
     }
 
     .hot-comments {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .comments {

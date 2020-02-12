@@ -10,7 +10,13 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      id:'',
+      type:'' , // 0: 歌曲, 1: mv, 2: 歌单, 3: 专辑, 4: 电台, 5: 视频
+    }
+  },
+  created() {
+    console.log(this.$route);
   }
 }
 </script>

@@ -8,7 +8,9 @@
   <side-bar></side-bar>
   <section class="page-container">
     <el-scrollbar class="jsPageScroll" ref="jsPageScroll">
-      <router-view></router-view>
+      <keep-alive :include="keepAliveArr" :max="10">
+        <router-view></router-view>
+      </keep-alive>
     </el-scrollbar>
   </section>
   <search-history></search-history>
@@ -19,13 +21,17 @@
 import SideBar from "./sidebar";
 import SearchHistory from "./search_history";
 import {
-  mapActions
+  mapActions,
+  mapGetters
 } from 'vuex';
 
 export default {
   components: {
     SideBar,
     SearchHistory
+  },
+  computed: {
+    ...mapGetters(['keepAliveArr'])
   },
   mounted() {
     this.setJsPageScrollAction(this.$refs.jsPageScroll);
