@@ -159,6 +159,12 @@
 
 <script>
 import {
+  routerMixin
+} from '@/mixins'
+import {
+  mapGetters
+} from 'vuex'
+import {
   ajaxGetPlayListDetail,
   ajaxGetSongsDetail,
   ajaxGetPlayListComments
@@ -168,6 +174,7 @@ import {
 } from '@/utils/tools.js'
 export default {
   name: 'ListDetail',
+  mixins: [routerMixin],
   data() {
     return {
       tagTypes: ['', 'success', 'info', 'danger', 'warning'], // 标签类型
@@ -190,6 +197,9 @@ export default {
         hotComments: []
       }
     }
+  },
+  computed: {
+    ...mapGetters(['jsPageScroll'])
   },
   watch: {
     activeTab(val, oldVal) {

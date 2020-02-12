@@ -30,24 +30,28 @@ const routes = [
           component: PageContent,
           redirect: "/findmusic/playlist/list",
           meta: { title: "歌单", parentPath: "/findmusic" },
-          children: [{
-            path: "/findmusic/playlist/list",
-            component: () => import("@/views/find_music/play_list"),
-            meta: { title: "歌单", parentPath: "/findmusic", name: 'PlayList' },
-          }, {
-            path: "/findmusic/playlist/quality",
-            component: () => import("@/views/find_music/quality_play_list"),
-            meta: { title: "精品歌单", parentPath: "/findmusic" },
-          }, {
-            path: "/playlist/detail",
-            component: () => import("@/views/find_music/play_list_detail"),
-            meta: { title: "歌单详情" },
-          }]
+        }, {
+          path: "/findmusic/playlist/list",
+          component: () => import("@/views/find_music/play_list"),
+          meta: { title: "歌单", parentPath: "/findmusic", name: 'PlayList', hidden: true },
+        }, {
+          path: "/findmusic/playlist/quality",
+          component: () => import("@/views/find_music/quality_play_list"),
+          meta: { title: "精品歌单", parentPath: "/findmusic", hidden: true },
         }]
       }, {
         path: "/test",
         component: () => import("@/views/other/test"),
         meta: { title: "测试组件" }
+      }, {
+        path: "/playlist/detail/keepalive",
+        component: PageContent,
+        meta: { title: "歌单详情", hidden: true },
+        children: [{
+          path: "/playlist/detail",
+          component: () => import("@/views/find_music/play_list_detail"),
+          meta: { title: "歌单详情", hidden: true, name: 'ListDetail' },
+        }]
       }, {
         path: "/comment",
         component: PageContent,

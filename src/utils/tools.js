@@ -21,13 +21,3 @@ export const formateTime = (time) => {
   dateObj.minute = dateObj.minute >= 10 ? dateObj.minute : `0${dateObj.minute}`;
   return `${dateObj.year}年${dateObj.month}月${dateObj.day}日 ${dateObj.hour}:${dateObj.minute}`;
 }
-
-/**
- * 组件导航守卫函数
- */
-export const beforeRouteLeave = (to, from, next) => {
-  if (this.$route.meta.savePositionFlag) {
-    this.$route.meta.savedPostion = { y: document.getElementsByClassName('jsPageScroll')[0].getElementsByClassName('el-scrollbar__wrap')[0].scrollTop }
-  }
-  console.log(this.$route)
-}
