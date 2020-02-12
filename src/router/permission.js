@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
  * 缓存页面
  */
 function cachePage(to, from) {
-  console.log('进入页面前,arr');
+  console.log('前,arr');
   console.log(store.getters.keepAliveArr.join(' '));
   console.log(from.path + ' =>  ' + to.path);
   // 跳转到详情页或者热评页，缓存上一页
@@ -27,11 +27,13 @@ function cachePage(to, from) {
     from.meta.savePositionFlag = false;
     store.dispatch('setKeepAliveArrAction', { type: 'remove', name: from.meta.name });
   }
+
+  // 暂时是为了解决上面的操作更新keepAliveArr后，第一次不能缓存的问题
   if (to.meta.name) {
     to.meta.savePositionFlag = true;
     store.dispatch('setKeepAliveArrAction', { type: 'add', name: to.meta.name });
   }
-  console.log('进入页面后,arr');
+  console.log('后,arr');
   console.log(store.getters.keepAliveArr.join(' '));
   console.log('--------------------')
   console.log('');

@@ -82,6 +82,9 @@
 
 <script>
 import {
+  routerMixin
+} from '@/mixins'
+import {
   ajaxGetBannerList,
   ajaxGetRecPlayList,
   ajaxGetExclusiveList,
@@ -93,6 +96,7 @@ import {
 } from 'vuex'
 export default {
   name: 'PersonalRecommend',
+  mixins: [routerMixin],
   data() {
     return {
       // 轮播列表
@@ -107,17 +111,6 @@ export default {
   },
   computed: {
     ...mapGetters(['jsPageScroll'])
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.jsPageScroll.wrap.scrollTop = vm.$route.meta.savedPostion;
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.$route.meta.savePositionFlag) {
-      this.$route.meta.savedPostion = this.jsPageScroll.wrap.scrollTop;
-    }
-    next();
   },
   created() {
     this.getBannerList();

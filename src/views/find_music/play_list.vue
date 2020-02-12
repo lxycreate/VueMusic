@@ -51,6 +51,9 @@
 
 <script>
 import {
+  routerMixin
+} from '@/mixins'
+import {
   ajaxGetHotPlayListCatList,
   ajaxGetPlayListByCat,
   ajaxGetQualityPlayListByCat
@@ -60,9 +63,9 @@ import {
 } from 'vuex'
 export default {
   name: 'PlayList',
+  mixins: [routerMixin],
   data() {
     return {
-      canRequest: true, //限制请求频率
       activeTab: '全部',
       qualityCover: {},
       listProps: {
@@ -86,17 +89,6 @@ export default {
   },
   computed: {
     ...mapGetters(['jsPageScroll'])
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.jsPageScroll.wrap.scrollTop = vm.$route.meta.savedPostion;
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.$route.meta.savePositionFlag) {
-      this.$route.meta.savedPostion = this.jsPageScroll.wrap.scrollTop;
-    }
-    next();
   },
   created() {
     this.getHotPlayListCatList();
