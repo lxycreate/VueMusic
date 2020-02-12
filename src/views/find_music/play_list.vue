@@ -55,6 +55,9 @@ import {
   ajaxGetPlayListByCat,
   ajaxGetQualityPlayListByCat
 } from '@/api/find_music'
+import {
+  mapGetters
+} from 'vuex'
 export default {
   data() {
     return {
@@ -79,6 +82,20 @@ export default {
       this.getPlayListByCat();
       this.getQualityPlayListByCat();
     }
+  },
+  computed: {
+    ...mapGetters(['jsPageScroll'])
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.jsPageScroll.wrap.scrollTop = vm.$route.meta.savedPostion;
+    })
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.$route.meta.keepAlive) {
+      this.$route.meta.savedPostion = this.jsPageScroll.wrap.scrollTop;
+    }
+    next();
   },
   created() {
     this.getHotPlayListCatList();

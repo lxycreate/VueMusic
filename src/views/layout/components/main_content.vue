@@ -7,7 +7,7 @@
 <section class="main-content">
   <side-bar></side-bar>
   <section class="page-container">
-    <el-scrollbar>
+    <el-scrollbar class="jsPageScroll" ref="jsPageScroll">
       <router-view></router-view>
     </el-scrollbar>
   </section>
@@ -18,11 +18,20 @@
 <script>
 import SideBar from "./sidebar";
 import SearchHistory from "./search_history";
+import {
+  mapActions
+} from 'vuex';
 
 export default {
   components: {
     SideBar,
     SearchHistory
+  },
+  mounted() {
+    this.setJsPageScrollAction(this.$refs.jsPageScroll);
+  },
+  methods: {
+    ...mapActions(['setJsPageScrollAction'])
   }
 }
 </script>

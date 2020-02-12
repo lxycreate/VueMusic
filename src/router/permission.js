@@ -6,10 +6,11 @@
 import store from '@/store'
 import router from './router';
 
-router.afterEach((to, from) => {
+router.beforeEach((to, from, next) => {
   // 只有当从歌单页跳转到歌单详情页时，歌单页才被缓存下来
-  if (to.path === '/playlist/detail'||to.path==='/comment/hot') {
+  if (to.path === '/playlist/detail' || to.path === '/comment/hot') {
     from.meta.keepAlive = true;
+    store.dispatch('setKeepAliveListAction', { path: from.path, type: 'add' });
   }
   else {
     from.meta.keepAlive = false;
@@ -26,4 +27,5 @@ router.afterEach((to, from) => {
   } else {
     store.dispatch('setRecordFlagAction', true);
   }
+  next();
 })

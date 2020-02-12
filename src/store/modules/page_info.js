@@ -7,6 +7,7 @@ const pageInfo = {
   state: {
     pageBtns: [],  // 页面按钮
     showSearchPanel: false, // 显示搜索面板
+    jsPageScroll: undefined,
   },
   mutations: {
     setPageBtns(state, btns) {
@@ -14,6 +15,9 @@ const pageInfo = {
     },
     setShowSearchPanel(state, flag) {
       state.showSearchPanel = flag;
+    },
+    setJsPageScroll(state, jsPageScroll) {
+      state.jsPageScroll = jsPageScroll;
     }
   },
   actions: {
@@ -22,11 +26,15 @@ const pageInfo = {
     },
     setShowSearchPanelAction({ commit }, flag) {
       commit("setShowSearchPanel", flag);
+    },
+    setJsPageScrollAction({ commit }, jsPageScroll) {
+      commit('setJsPageScroll', jsPageScroll);
     }
   },
   getters: {
     pageBtns: state => state.pageBtns,
-    showSearchPanel: state => state.showSearchPanel
+    showSearchPanel: state => state.showSearchPanel,
+    jsPageScroll: state => state.jsPageScroll,
   }
 }
 
