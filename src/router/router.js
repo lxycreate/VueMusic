@@ -27,7 +27,7 @@ const routes = [
           path: "/findmusic/personalrecommend",
           name: "personalrecommend",
           component: () => import("@/views/find_music/personal_recommend"),
-          meta: { title: "个性推荐", parentPath: "/findmusic", keepAlive: true }
+          meta: { title: "个性推荐", parentPath: "/findmusic", name: 'PersonalRecommend' }
         }, {
           path: "/findmusic/playlist",
           name: "playlist",
@@ -38,7 +38,7 @@ const routes = [
             path: "/findmusic/playlist/list",
             name: "list",
             component: () => import("@/views/find_music/play_list"),
-            meta: { title: "歌单", parentPath: "/findmusic", keepAlive: true },
+            meta: { title: "歌单", parentPath: "/findmusic", name: 'PlayList' },
           }, {
             path: "/findmusic/playlist/quality",
             name: "quality",

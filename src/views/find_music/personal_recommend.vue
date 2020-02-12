@@ -26,12 +26,12 @@
     <span class="title">推荐歌单</span>
     <ul class="rec-play-list">
       <li class="list-item" v-for="item in recPlayList" :key="item.id" @click="jumpToListDetail(item.id)">
-        <span class="img-box">
+        <span class="common-square-img-box">
+          <img class="img" :src="item.picUrl" />
           <span class="play-count">
             <i class="icon el-icon-video-play"></i>
             <span class="count-num">{{item.playCount>10000?`${(item.playCount/10000).toFixed(0)}万`:item.playCount}}</span>
           </span>
-          <img class="img" :src="item.picUrl" />
         </span>
         <span class="label">{{item.name}}</span>
       </li>
@@ -92,6 +92,7 @@ import {
   mapGetters
 } from 'vuex'
 export default {
+  name: 'PersonalRecommend',
   data() {
     return {
       // 轮播列表
@@ -113,7 +114,7 @@ export default {
     })
   },
   beforeRouteLeave(to, from, next) {
-    if (this.$route.meta.keepAlive) {
+    if (this.$route.meta.savePositionFlag) {
       this.$route.meta.savedPostion = this.jsPageScroll.wrap.scrollTop;
     }
     next();
@@ -273,32 +274,6 @@ export default {
         margin-top: 10px;
         width: calc((100% - 40px)/5);
       }
-
-      .img-box {
-        position: relative;
-        display: block;
-        border-radius: 3px;
-        overflow: hidden;
-      }
-
-      .play-count {
-        position: absolute;
-        display: block;
-        top: 3px;
-        left: 0;
-        width: 100%;
-        font-size: 12px;
-        text-align: right;
-        color: $lightTxtColor;
-      }
-
-      .count-num {
-        margin: 0 5px;
-      }
-
-      .img {
-        width: 100%;
-      }
     }
   }
 
@@ -367,6 +342,8 @@ export default {
       .img {
         display: block;
         width: 100%;
+        height: 100%;
+        object-fit: cover;
         border-radius: 3px;
       }
 

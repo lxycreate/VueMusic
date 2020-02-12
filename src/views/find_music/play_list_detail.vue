@@ -9,7 +9,7 @@
   <div class="cover-box">
     <div class="left">
       <div class="img-box">
-        <img class="img" :src="listDetail.coverImgUrl">
+        <img class="img" v-lazy="listDetail.coverImgUrl">
       </div>
     </div>
     <div class="right">

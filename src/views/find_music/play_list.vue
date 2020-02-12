@@ -22,12 +22,12 @@
       <el-tab-pane v-for="item in catList" :key="item.name" :label="item.name" :name="item.name">
         <ul class="list-content">
           <li class="list-item" v-for="(item,index) in playList" :key="item.id+index" @click="jumpToListDetail(item.id)">
-            <span class="img-box">
+            <span class="common-square-img-box">
+              <img class="img" v-lazy="item.coverImgUrl" />
               <span class="play-count">
                 <i class="icon el-icon-video-play"></i>
                 <span class="count-num">{{item.playCount>10000?`${(item.playCount/10000).toFixed(0)}万`:item.playCount}}</span>
               </span>
-              <img class="img" v-lazy="item.coverImgUrl" />
             </span>
             <span class="label">{{item.name}}</span>
           </li>
@@ -59,6 +59,7 @@ import {
   mapGetters
 } from 'vuex'
 export default {
+  name: 'PlayList',
   data() {
     return {
       canRequest: true, //限制请求频率
@@ -92,7 +93,7 @@ export default {
     })
   },
   beforeRouteLeave(to, from, next) {
-    if (this.$route.meta.keepAlive) {
+    if (this.$route.meta.savePositionFlag) {
       this.$route.meta.savedPostion = this.jsPageScroll.wrap.scrollTop;
     }
     next();
@@ -296,6 +297,8 @@ $qualityColor: #ddb814;
       .img-box {
         position: relative;
         display: block;
+        padding-top: 100%;
+        overflow: hidden;
       }
 
       .play-count {
@@ -314,8 +317,13 @@ $qualityColor: #ddb814;
       }
 
       .img {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
         border-radius: 3px;
+        object-fit: cover;
       }
 
       .label {

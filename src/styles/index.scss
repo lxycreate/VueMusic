@@ -1,4 +1,37 @@
-@import './common_comment.scss';
+@import "./common_comment.scss";
+
+// 通用方形图片容器
+.common-square-img-box {
+  position: relative;
+  display: block;
+  padding-top: 100%;
+  overflow: hidden;
+
+  .play-count {
+    position: absolute;
+    display: block;
+    top: 3px;
+    left: 0;
+    width: 100%;
+    font-size: 12px;
+    text-align: right;
+    color: $lightTxtColor;
+  }
+
+  .count-num {
+    margin: 0 5px;
+  }
+
+  .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+}
 
 // 公共分页样式
 .el-pagination {

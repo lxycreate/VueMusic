@@ -5,16 +5,22 @@
  -->
 <template>
 <div class="page-content">
-  <keep-alive>
-    <router-view v-if="$route.meta.keepAlive"></router-view>
+  <keep-alive :include="keepAliveArr">
+    <router-view></router-view>
   </keep-alive>
-  <router-view v-if="!$route.meta.keepAlive">
-  </router-view>
+  <!-- <router-view></router-view> -->
 </div>
 </template>
 
 <script>
-export default {}
+import {
+  mapGetters
+} from 'vuex'
+export default {
+  computed: {
+    ...mapGetters(['keepAliveArr'])
+  }
+}
 </script>
 
 <style lang="scss">

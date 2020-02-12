@@ -26,7 +26,7 @@ export const formateTime = (time) => {
  * 组件导航守卫函数
  */
 export const beforeRouteLeave = (to, from, next) => {
-  if (this.$route.meta.keepAlive) {
+  if (this.$route.meta.savePositionFlag) {
     this.$route.meta.savedPostion = { y: document.getElementsByClassName('jsPageScroll')[0].getElementsByClassName('el-scrollbar__wrap')[0].scrollTop }
   }
   console.log(this.$route)

@@ -7,14 +7,40 @@ import store from '@/store'
 import router from './router';
 
 router.beforeEach((to, from, next) => {
-  // 只有当从歌单页跳转到歌单详情页时，歌单页才被缓存下来
+  cachePage(to, from);
+  recordHistory(to);
+  next();
+})
+
+/**
+ * 缓存页面
+ */
+function cachePage(to, from) {
+  console.log('进入页面前,arr');
+  console.log(store.getters.keepAliveArr.join(' '));
+  console.log(from.path + ' =>  ' + to.path);
+  // 跳转到详情页或者热评页，缓存上一页
   if (to.path === '/playlist/detail' || to.path === '/comment/hot') {
-    from.meta.keepAlive = true;
-    store.dispatch('setKeepAliveListAction', { path: from.path, type: 'add' });
+    from.meta.savePositionFlag = true;
+    store.dispatch('setKeepAliveArrAction', { type: 'add', name: from.meta.name });
+  } else {
+    from.meta.savePositionFlag = false;
+    store.dispatch('setKeepAliveArrAction', { type: 'remove', name: from.meta.name });
   }
-  else {
-    from.meta.keepAlive = false;
+  if (to.meta.name) {
+    to.meta.savePositionFlag = true;
+    store.dispatch('setKeepAliveArrAction', { type: 'add', name: to.meta.name });
   }
+  console.log('进入页面后,arr');
+  console.log(store.getters.keepAliveArr.join(' '));
+  console.log('--------------------')
+  console.log('');
+}
+
+/**
+ * 记录历史记录
+ */
+function recordHistory(to) {
   if (store.getters.recordFlag) {
     // 上一次操作是前进或后退时要截断历史记录
     if (store.getters.cutFlag) {
@@ -27,5 +53,4 @@ router.beforeEach((to, from, next) => {
   } else {
     store.dispatch('setRecordFlagAction', true);
   }
-  next();
-})
+}
