@@ -44,7 +44,7 @@ const routes = [
         component: () => import("@/views/other/test"),
         meta: { title: "测试组件" }
       }, {
-        path: "/playlist/detail/keepalive",
+        path: "/playlist",
         component: PageContent,
         meta: { title: "歌单详情", hidden: true },
         children: [{

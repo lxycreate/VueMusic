@@ -96,6 +96,11 @@ export default {
         color: rgba($lightTxtColor, 0.6);
       }
     }
+
+    .el-icon-arrow-left,
+    .el-icon-arrow-right {
+      font-weight: bold;
+    }
   }
 
   .right {
